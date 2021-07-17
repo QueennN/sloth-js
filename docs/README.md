@@ -362,13 +362,13 @@ fookie.role(async function(payload,ctx){
 Fookie js comes with default libraries
 
 - ctx.models :Map
-- ctx.store.rule :Map
+- ctx.store.get("rule") :Map
 - ctx.roles :Map
 - ctx.store :Map
-- ctx.store.effect :Map
+- ctx.store.get("effect") :Map
 - ctx.routines :Map
-- ctx.store.filter :Map
-- ctx.store.modify :Map
+- ctx.store.get("filter") :Map
+- ctx.store.get("modify") :Map
 - ctx.mixins :Map
 - ctx.modelParser :Map
 - ctx.lodash

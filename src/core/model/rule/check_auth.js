@@ -9,25 +9,25 @@ module.exports = async function (payload, ctx) {
    if (roles.every((e) => ctx.roles.has(e))) {
       for (let role of roles) {
          let res = await ctx.roles.get(role)(payload, ctx);
-         let store.modify = [];
+         let modify = [];
          if (res) {
             try {
-               store.modify = ctx.models.get(payload.model).lifecycle[payload.method].resolve[role];
+               modify = ctx.models.get(payload.model).lifecycle[payload.method].resolve[role];
             } catch (error) {}
-            await Promise.all(store.modify.map((m) => ctx.store.modify.get(m)(payload, ctx)));
+            await Promise.all(modify.map((m) => ctx.store.get("modify").get(m)(payload, ctx)));
             return true;
          }
 
          payload.response.warnings.push(`You are not: ${role}`);
-         store.modify = [];
+         modify = [];
          try {
-            store.modify = ctx.models.get(payload.model).lifecycle[payload.method].reject[role];
+            modify = ctx.models.get(payload.model).lifecycle[payload.method].reject[role];
          } catch (error) {}
-         if (store.modify.length == 0) return false;
+         if (modify.length == 0) return false;
          else {
             payload.response.warnings.push(`Rejected Role found. Payload manupilated.: ${role}`);
          }
-         await Promise.all(store.modify.map((m) => ctx.store.modify.get(m)(payload, ctx)));
+         await Promise.all(modify.map((m) => ctx.store.get("modify").get(m)(payload, ctx)));
       }
       return true;
    } else {

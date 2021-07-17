@@ -73,10 +73,9 @@ class Fookie {
       this.use(core);
    }
 
-   async run(payload) {
+   async run(payload) { // THINK: May be dynamic steps
       let ctx = this;
       for (let b of this.store.get("befores")) {
-         console.log(this.store.get("befores"));
          await this.store.modify.get(b)(payload, ctx);
       }
       if (await preRule(payload, ctx)) {
