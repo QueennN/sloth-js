@@ -1,7 +1,7 @@
 module.exports = async function (ctx) {
-    ctx.store.set("secret", "secret");
-    ctx.store.set("afters", ["log", "metric"]);
-    ctx.store.set("befores", ["default_payload"]);
+    ctx.store.secret = "secret"
+    ctx.store.afters = ["log", "metric"]
+    ctx.store.befores = ["default_payload"]
 
     // IMPORTANT PLUGINS
     await ctx.use(require("../helpers/after_before_calculater"));
@@ -60,7 +60,5 @@ module.exports = async function (ctx) {
     await ctx.model(require("./database/model/database"))
     await ctx.model(require("./user/model/user.js"))
     await ctx.model(require("./user/model/admin.js"))
-
-    console.log(ctx.store.get("model"));
 
 }

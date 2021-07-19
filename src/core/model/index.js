@@ -1,5 +1,5 @@
 module.exports = async function (ctx) {
-    ctx.store.set("model",new Map())
+    ctx.store.model = {}
     ctx.model = async function(model){
         await ctx.run({
             system: true,

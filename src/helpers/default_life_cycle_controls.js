@@ -1,5 +1,5 @@
 module.exports = async function (ctx) {
-   ctx.store.set("default_life_cycle_controls", {
+   ctx.store.default_life_cycle_controls = {
       get: {
          modify: {
             before: [],
@@ -10,7 +10,7 @@ module.exports = async function (ctx) {
             after: ["check_auth"],
          },
          preRule: {
-            before: ["has_model", "has_method","valid_attributes"],
+            before: ["has_model", "has_method", "valid_attributes"],
             after: [],
          },
          filter: {
@@ -32,12 +32,12 @@ module.exports = async function (ctx) {
             after: ["check_auth"],
          },
          preRule: {
-            before: ["has_model", "has_method","valid_attributes"],
+            before: ["has_model", "has_method", "valid_attributes"],
             after: [],
          },
          filter: {
             before: [],
-            after: [ "simplified"],
+            after: ["simplified"],
          },
          effect: {
             before: [],
@@ -47,10 +47,10 @@ module.exports = async function (ctx) {
       post: {
          modify: {
             before: ["set_default", "increase"],
-            after: ["attributes","version"],
+            after: ["attributes", "version"],
          },
          rule: {
-            before: [ "check_required","has_fields", "check_type" ,"field_control", "unique"],
+            before: ["check_required", "has_fields", "check_type", "field_control", "unique"],
             after: ["check_auth"],
          },
          preRule: {
@@ -81,7 +81,7 @@ module.exports = async function (ctx) {
          },
          filter: {
             before: [],
-            after: [ "simplified"],
+            after: ["simplified"],
          },
          effect: {
             before: [],
@@ -176,5 +176,5 @@ module.exports = async function (ctx) {
             after: [],
          },
       },
-   });
+   }
 };

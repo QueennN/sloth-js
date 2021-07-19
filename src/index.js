@@ -27,9 +27,7 @@ const pckg = require("../package.json");
 
 class Fookie {
    constructor() {
-      this.routines = new Map();
-      this.store = new Map();
-      this.modelParser = new Map();
+      this.store = {}
       this.lodash = lodash;
       this.axios = axios;
       this.faker = faker;
@@ -73,14 +71,13 @@ class Fookie {
    //TODO BU modelde payload üzerinden ayarlama yapmak lazım şuan sanırım get ile almaya calısıyor.
    async run(payload) { // THINK: May be dynamic steps
       let ctx = this;
-      for (let b of this.store.get("befores")) {
-         await this.store.get("modify").get(b)(payload, ctx);
+      for (let b of this.storebefores) {
+         await this.store.modify[b](payload, ctx);
       }
       if (await preRule(payload, ctx)) {
          await modify(payload, ctx);
          if (await rule(payload, ctx)) {
-            console.log(payload);
-            payload.response.data = await this.store.get("model").get(payload.model).methods.get(payload.method)(payload, ctx);
+            payload.response.data = await this.storemodel.payload.model.methods[payload.method](payload, ctx);
             if (payload.response.status == 200) {
                await filter(payload, ctx);
                effect(payload, ctx);
@@ -92,8 +89,8 @@ class Fookie {
       } else {
          payload.response.status = 400;
       }
-      for await (let b of this.store.get("afters")) {
-         await this.store.get("effect").get(b)(payload, ctx);
+      for await (let b of this.store.afters) {
+         await this.store.effect[b](payload, ctx);
       }
       return payload.response;
    }
