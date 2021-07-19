@@ -53,6 +53,7 @@ module.exports = async function (ctx) {
    ctx.filter("filter", require("./filter/filter"));
    ctx.filter("simplified", require("./filter/simplified"));
 
+   
    //MODIFIES
    ctx.modify("password", require("./modify/password"));
    ctx.modify("set_default", require("./modify/set_default"));
