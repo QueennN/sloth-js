@@ -1,8 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const mongooseModelParser = require("./helpers/mongooseModelParser");
-const schemaFixer = require("./helpers/schema_fixer.js");
 const rule = require("./life-cycle/rule.js");
 const effect = require("./life-cycle/effect.js");
 const filter = require("./life-cycle/filter.js");
@@ -15,7 +13,6 @@ const mongoose = require("mongoose");
 const deepMerge = require("deepmerge");
 const axios = require("axios");
 const faker = require("faker");
-const { Schema } = mongoose;
 const Discord = require("discord.js");
 const sequelize = require("sequelize");
 const aws = require("aws-sdk");
@@ -30,18 +27,7 @@ const pckg = require("../package.json");
 
 class Fookie {
    constructor() {
-      this.models = new Map();
-      this.rules = new Map();
-      this.roles = new Map();
-      this.effects = new Map();
-      this.routines = new Map();
-      this.filters = new Map();
-      this.modifies = new Map();
-      this.mixins = new Map();
-      this.store = new Map();
-      this.modelParser = new Map();
-      this.corePlugin = new Map();
-      this.databases = new Map();
+      this.store = {}
       this.lodash = lodash;
       this.axios = axios;
       this.faker = faker;
@@ -82,50 +68,16 @@ class Fookie {
 
       this.use(core);
    }
-
-   mixin(name, mixin) {
-      this.mixins.set(name, mixin);
-   }
-
-   rule(name, rule) {
-      this.rules.set(name, rule);
-   }
-
-   role(name, role) {
-      this.roles.set(name, role);
-   }
-
-   filter(name, filter) {
-      this.filters.set(name, filter);
-   }
-
-   modify(name, before) {
-      this.modifies.set(name, before);
-   }
-
-   async model(model) {
-      schemaFixer(model);
-      for (let i of model.mixin) {
-         model = deepMerge(model, this.mixins.get(i))
-      }
-      schemaFixer(model);
-      this.models.set(model.name, model);
-      return model;
-   }
-
-   async effect(name, effect) {
-      this.effects.set(name, effect);
-   }
-
-   async run(payload) {
+   //TODO BU modelde payload üzerinden ayarlama yapmak lazım şuan sanırım get ile almaya calısıyor.
+   async run(payload) { // THINK: May be dynamic steps
       let ctx = this;
-      for (let b of this.store.get("befores")) {
-         await this.modifies.get(b)(payload, ctx);
+      for (let b of this.storebefores) {
+         await this.store.modify[b](payload, ctx);
       }
       if (await preRule(payload, ctx)) {
          await modify(payload, ctx);
          if (await rule(payload, ctx)) {
-            payload.response.data = await this.databases.get(this.models.get(payload.model).database).methods.get(payload.method)(payload, ctx);
+            payload.response.data = await this.storemodel.payload.model.methods[payload.method](payload, ctx);
             if (payload.response.status == 200) {
                await filter(payload, ctx);
                effect(payload, ctx);
@@ -133,11 +85,12 @@ class Fookie {
          } else {
             payload.response.status = 400;
          }
-         for await (let b of this.store.get("afters")) {
-            await this.effects.get(b)(payload, ctx);
-         }
+
       } else {
          payload.response.status = 400;
+      }
+      for await (let b of this.store.afters) {
+         await this.store.effect[b](payload, ctx);
       }
       return payload.response;
    }
