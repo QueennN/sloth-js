@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const mongooseModelParser = require("./helpers/mongooseModelParser");
+const schemaFixer = require("./helpers/schema_fixer.js");
 const rule = require("./life-cycle/rule.js");
 const effect = require("./life-cycle/effect.js");
 const filter = require("./life-cycle/filter.js");
@@ -13,6 +15,7 @@ const mongoose = require("mongoose");
 const deepMerge = require("deepmerge");
 const axios = require("axios");
 const faker = require("faker");
+const { Schema } = mongoose;
 const Discord = require("discord.js");
 const sequelize = require("sequelize");
 const aws = require("aws-sdk");
@@ -27,7 +30,16 @@ const pckg = require("../package.json");
 
 class Fookie {
    constructor() {
-      this.store = {}
+      this.models = new Map();
+      this.rules = new Map();
+      this.roles = new Map();
+      this.effects = new Map();
+      this.routines = new Map();
+      this.filters = new Map();
+      this.modifies = new Map();
+      this.mixins = new Map();
+      this.store = new Map();
+      this.modelParser = new Map();
       this.lodash = lodash;
       this.axios = axios;
       this.faker = faker;
@@ -68,16 +80,98 @@ class Fookie {
 
       this.use(core);
    }
-   //TODO BU modelde payload üzerinden ayarlama yapmak lazım şuan sanırım get ile almaya calısıyor.
-   async run(payload) { // THINK: May be dynamic steps
+
+   mixin(name, mixin) {
+      this.mixins.set(name, mixin);
+   }
+
+   rule(name, rule) {
+      this.rules.set(name, rule);
+   }
+
+   role(name, role) {
+      this.roles.set(name, role);
+   }
+
+   filter(name, filter) {
+      this.filters.set(name, filter);
+   }
+
+   modify(name, before) {
+      this.modifies.set(name, before);
+   }
+
+   async model(model) {
+      //todo: mongoosu parametrik yap sequlize falan da yazabielim.
+
+      schemaFixer(model);
+      for (let i of model.mixin) {
+         model = deepMerge(model, this.mixins.get(i))
+      }
+      schemaFixer(model);
+      let parsedSchema = mongooseModelParser(model);
+
+      let Model = mongoose.model(model.name, new Schema(parsedSchema, { versionKey: false }));
+      model.methods = new Map();
+      model.methods.set("get", async function (payload, ctx) {
+         let res = await Model.findOne(payload.query, payload.attributes, payload.projection);
+         return res;
+      });
+      model.methods.set("getAll", async function (payload, ctx) {
+         let res = await Model.find(payload.query, payload.attributes, payload.projection);
+         return res;
+      });
+      model.methods.set("post", async function (payload, ctx) {
+         let res = await Model.create(payload.body);
+         return res;
+      });
+      model.methods.set("delete", async function (payload, ctx) {
+         let res = await Model.deleteMany(payload.query);
+         return res;
+      });
+      model.methods.set("patch", async function (payload, ctx) {
+         return await Model.updateMany(payload.query, payload.body);
+      });
+      model.methods.set("model", async function (payload, ctx) {
+         return JSON.parse(JSON.stringify(model))
+      });
+      model.methods.set("count", async function (payload, ctx) {
+         let res = await Model.countDocuments(payload.query);
+         return res;
+      });
+
+      model.methods.set("test", async function (payload, ctx) {
+         payload.method = payload.options.method+'';
+         for (let b of ctx.store.get("befores")) {
+            await ctx.modifies.get(b)(payload, ctx);
+         }
+         if (await preRule(payload, ctx)) {
+            await modify(payload, ctx);
+            if (await rule(payload, ctx)) {
+               return true;
+            }
+         }
+         return false;
+      });
+
+      model.model = Model;
+      this.models.set(model.name, model);
+      return model;
+   }
+
+   async effect(name, effect) {
+      this.effects.set(name, effect);
+   }
+
+   async run(payload) {
       let ctx = this;
-      for (let b of this.storebefores) {
-         await this.store.modify[b](payload, ctx);
+      for (let b of this.store.get("befores")) {
+         await this.modifies.get(b)(payload, ctx);
       }
       if (await preRule(payload, ctx)) {
          await modify(payload, ctx);
          if (await rule(payload, ctx)) {
-            payload.response.data = await this.storemodel.payload.model.methods[payload.method](payload, ctx);
+            payload.response.data = await this.models.get(payload.model).methods.get(payload.method)(payload, ctx);
             if (payload.response.status == 200) {
                await filter(payload, ctx);
                effect(payload, ctx);
@@ -85,12 +179,11 @@ class Fookie {
          } else {
             payload.response.status = 400;
          }
-
+         for await (let b of this.store.get("afters")) {
+            await this.effects.get(b)(payload, ctx);
+         }
       } else {
          payload.response.status = 400;
-      }
-      for await (let b of this.store.afters) {
-         await this.store.effect[b](payload, ctx);
       }
       return payload.response;
    }
