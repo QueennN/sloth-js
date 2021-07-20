@@ -107,17 +107,13 @@ class Fookie {
    }
 
    async model(model) {
-      //todo: mongoosu parametrik yap sequlize falan da yazabielim.
-
       schemaFixer(model);
       for (let i of model.mixin) {
          model = deepMerge(model, this.mixins.get(i))
       }
       schemaFixer(model);
       model.methods = new Map();
-
       this.databases.get(model.database).modify(model,this)
-
       model.methods.set("model", async function (payload, ctx) {
          return JSON.parse(JSON.stringify(model))
       });
@@ -177,8 +173,8 @@ class Fookie {
       this.routines.set(name, routine);
    }
 
-   async connect(url, config) {
-      await mongoose.connect(url, config);
+   async connect(database,url, config) {
+      this.databases.get(database).connect(url,config)
    }
 
    async use(cb) {
