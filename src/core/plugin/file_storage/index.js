@@ -32,21 +32,21 @@ module.exports = async function (ctx) {
       },
       lifecycle: {
          get: {
-            rule: ["system_admin"],
+            rule: ["admin"],
          },
          getAll: {
-            rule: ["system_admin"],
+            rule: ["admin"],
          },
          patch: {
-            rule: ["system_admin"],
+            rule: ["admin"],
             effect: ["form_data"],
          },
          post: {
-            rule: ["system_admin"],
+            rule: ["admin"],
             effect: ["form_data"],
          },
          delete: {
-            rule: ["system_admin"],
+            rule: ["admin"],
             effect: ["form_data"],
          },
          model: {

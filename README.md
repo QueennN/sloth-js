@@ -57,7 +57,7 @@ npm install fookie --save
 ```javascript
 const Fookie = require("fookie");
 const fookie = new Fookie({
-  corePlugins: ["system_user", "metrics", "health_check"],
+  corePlugins: ["user", "metrics", "health_check"],
 });
 await fookie.connect("mongodb://localhost/fookie");
 
@@ -79,21 +79,21 @@ await fookie.model({
       role: ["everybody"],
     },
     patch: {
-      role: ["system_admin"],
+      role: ["admin"],
       effect: ["log"],
     },
     post: {
-      role: ["system_admin"],
+      role: ["admin"],
       effect: ["log"],
     },
     delete: {
-      role: ["system_admin"],
+      role: ["admin"],
     },
     model: {
       role: ["everybody"],
     },
     count: {
-      role: ["system_admin"],
+      role: ["admin"],
     },
   },
 });

@@ -1,6 +1,6 @@
 module.exports = {
     name: "webhook",
-    database:"mongoose",
+    database:"mongodb",
     display: "name",
     schema: {
         name: {
@@ -29,19 +29,19 @@ module.exports = {
     },
     lifecycle: {
         get: {
-            role: ["system_admin"],
+            role: ["admin"],
         },
         getAll: {
-            role: ["system_admin"],
+            role: ["admin"],
         },
         patch: {
-            role: ["system_admin"],
+            role: ["admin"],
         },
         post: {
-            role: ["system_admin"],
+            role: ["admin"],
         },
         delete: {
-            role: ["system_admin"],
+            role: ["admin"],
         },
         model: {
             role: ["everybody"],

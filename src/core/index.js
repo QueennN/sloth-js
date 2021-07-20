@@ -3,14 +3,20 @@ module.exports = async function (ctx) {
    ctx.store.set("afters", ["metric","log"]);
    ctx.store.set("befores", ["metric","default_payload", "set_user"]);
 
+   ctx.use(require('./database/cassandra'))
+   ctx.use(require('./database/dynomodb'))
+   ctx.use(require('./database/mongodb'))
+   ctx.use(require('./database/postgre'))
+   ctx.use(require('./database/store'))
+
    // MIXIN
    ctx.mixin("default_mixin",require("./mixin/default_mixin"))
 
    //MODELS
-   ctx.model(require("./model/system_model.js"));
-   ctx.model(require("./model/system_menu.js"));
-   ctx.model(require("./model/system_submenu.js"));
-   ctx.model(require("./model/system_admin.js"));
+   ctx.model(require("./model/model.js"));
+   ctx.model(require("./model/menu.js"));
+   ctx.model(require("./model/submenu.js"));
+   ctx.model(require("./model/admin.js"));
    ctx.model(require("./model/webhook.js"));
 
    // IMPORTANT PLUGINS
@@ -40,7 +46,7 @@ module.exports = async function (ctx) {
    ctx.role("loggedin", require("./role/loggedin"));
    ctx.role("everybody", require("./role/everybody"));
    ctx.role("nobody", require("./role/nobody"));
-   ctx.role("system_admin", require("./role/system_admin"));
+   ctx.role("admin", require("./role/admin"));
    ctx.role("system", require("./role/system"));
 
    //EFFECT
@@ -69,5 +75,5 @@ module.exports = async function (ctx) {
    // PLUGINS
    //await ctx.use(require("./defaults/plugin/file_storage"))
    await ctx.use(require("./plugin/metric/index"));
-   await ctx.use(require("./plugin/system_user"));
+   await ctx.use(require("./plugin/user"));
 };

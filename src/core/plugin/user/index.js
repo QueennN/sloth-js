@@ -1,20 +1,20 @@
 const jwt = require("jsonwebtoken");
 const { sha512 } = require("js-sha512");
-const sustem_user = require("./model/system_user")
+const sustem_user = require("./model/user")
 module.exports = async function (ctx) {
    await ctx.model(sustem_user)
-   let sys_user = ctx.models.get("system_user")
+   let sys_user = ctx.models.get("user")
 
    let res = await ctx.run({
       system: true,
-      model: "system_user",
+      model: "user",
       method: "count",
    });
    let count = res.data;
    if (count == 0) {
       let user = await ctx.run({
          system: true,
-         model: "system_user",
+         model: "user",
          method: "post",
          body: {
             email: "admin",
@@ -24,10 +24,10 @@ module.exports = async function (ctx) {
       });
       await ctx.run({
          system: true,
-         model: "system_admin",
+         model: "admin",
          method: "post",
          body: {
-            system_user: user.data._id,
+            user: user.data._id,
          },
       });
    }
@@ -36,7 +36,7 @@ module.exports = async function (ctx) {
       let { email, password } = body;
       let res = await ctx.run({
          system: true,
-         model: "system_user",
+         model: "user",
          method: "get",
          query: {
             email,
@@ -49,7 +49,7 @@ module.exports = async function (ctx) {
          return token;
       } else {
          response.status = 201;
-         response.warnings.push("login not system_model");
+         response.warnings.push("login not model");
          return false;
       }
    });
@@ -58,7 +58,7 @@ module.exports = async function (ctx) {
       let { email, password } = body;
       let res = await ctx.run({
          system: true,
-         model: "system_user",
+         model: "user",
          method: "post",
          body: {
             email,
@@ -72,7 +72,7 @@ module.exports = async function (ctx) {
       let res = await ctx.run({
          system:true,
          method:"count",
-         model:"system_admin"
+         model:"admin"
       })
 
       return res.data != 1

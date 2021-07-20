@@ -49,7 +49,7 @@ npm install fookie --save
 ```javascript
 const Fookie = require("fookie")
 const fookie = new Fookie({
-   corePlugins:["system_user","metrics","system_file"]
+   corePlugins:["user","metrics","system_file"]
 });
 
 await fookie.connect("mongodb://db/test");
@@ -65,10 +65,10 @@ fookie.model({
    },
    lifecycle:{
       post:{
-         role:["system_admin"]
+         role:["admin"]
       },
       patch:{
-         role:["system_admin"]
+         role:["admin"]
       },
       delete:{
          role:["nobody"]
@@ -96,7 +96,7 @@ fookie.rule("is_email",async function(payload,ctx){
 /*
 payload:{
 token:"asd.asd.asd",
-model:"system_user",
+model:"user",
 method:"post",
 body:{
    email:"mockmail@mocksite.com",
@@ -118,7 +118,7 @@ fookie.modify("set_version",async function(payload,ctx){
 /*
 payload:{
 token:"asd.asd.asd",
-model:"system_user",
+model:"user",
 method:"patch",
 query:{ 
 },
@@ -152,9 +152,9 @@ fookie.model({
    },
    lifecycle:{
       getAll:{
-         role:["system_admin","everybody"],
+         role:["admin","everybody"],
          reject:{
-            system_admin:["pagination"]
+            admin:["pagination"]
          }
       }
    }
@@ -166,11 +166,11 @@ fookie.modify("pagination",async function(payload,ctx){
 })
 
 //is user a admin?
-fookie.role("system_admin",async function(payload,ctx){
+fookie.role("admin",async function(payload,ctx){
    let res = await ctx.run({
       system:true,
       method:"count",
-      model:"system_admin",
+      model:"admin",
       query:{
          _id:payload.user._id
       }
@@ -302,7 +302,7 @@ payload = {
     system:true //admin. YOu cant add this field http request :).
     user:{_id:"somemongooseID",email:"example@example.com"},
     method:"patch",
-    model:"system_user",
+    model:"user",
     attributes:["email"] // takes only the specified field 
     query:{
         $eq:{
@@ -429,7 +429,7 @@ fookie.use(async function(ctx){
 ```javascript
 fookie.run({
    method:"login",
-   model:"system_user",
+   model:"user",
    body:{
       email:"admin",
       password:"admin"
@@ -441,7 +441,7 @@ fookie.run({
 ```javascript
 fookie.run({
    method:"register",
-   model:"system_user",
+   model:"user",
    body:{
       email:"example@example.com",
       password:"pwpwpwpw"
@@ -532,7 +532,7 @@ let start = async function () {
          },
          author: {
             unique: false,
-            relation: "system_user",
+            relation: "user",
             default: 1,
             required: true,
          },
@@ -542,8 +542,8 @@ let start = async function () {
             required: true,
             input: "date",
             default: false,
-            read: ["system_admin"],
-            write: ["system_admin"],
+            read: ["admin"],
+            write: ["admin"],
          },
       },
       lifecycle: {
@@ -551,20 +551,20 @@ let start = async function () {
             role: ["everybody"],
          },
          getAll: {
-            role: ["system_admin", "everybody"],
+            role: ["admin", "everybody"],
             reject: {
-               system_admin: ["paginate", "published"],
+               admin: ["paginate", "published"],
             },
             rule: ["has_page"],
          },
          patch: {
-            role: ["system_admin", "editor"],
+            role: ["admin", "editor"],
          },
          post: {
-            role: ["system_admin", "editor"],
+            role: ["admin", "editor"],
          },
          delete: {
-            role: ["system_admin"],
+            role: ["admin"],
          },
          schema: {
             role: ["everybody"],
@@ -630,7 +630,7 @@ const Fookie = require("fookie");
             type: "string",
          },
          assignee: {
-            relation: "system_user",
+            relation: "user",
          },
          checked: {
             type: "boolean",
@@ -645,13 +645,13 @@ const Fookie = require("fookie");
             role: ["loggedin"],
          },
          patch: {
-            role: ["system_admin"],
+            role: ["admin"],
          },
          post: {
-            role: ["system_admin"],
+            role: ["admin"],
          },
          delete: {
-            role: ["system_admin"],
+            role: ["admin"],
          },
          model: {
             role: ["everybody"],
@@ -664,14 +664,14 @@ const Fookie = require("fookie");
       // We need set time because.Fookie didnt set all plugins.1 sec is enought.
       let res = await fookie.run({
          system: true,
-         model: "system_user",
+         model: "user",
          method: "login",
          body: {
             email: "admin",
             password: "admin",
          },
       });
-      let token = res.data; // You are system_admin now. (email:admin,password:admin default system_admin)
+      let token = res.data; // You are admin now. (email:admin,password:admin default admin)
       res = await fookie.run({
          token,
          model: "todo",
@@ -720,7 +720,7 @@ await axios.post("http://localhost:80808",
 await axios.post("http://localhost:80808",
     {
         method:"getAll",
-        model:"system_model",
+        model:"model",
         options:{
             attributes:["title","date"] //get title and date fields only
             deep:true // Populate all fields
@@ -744,7 +744,7 @@ await axios.post("http://localhost:80808",
             password:"example",
         },
         method:"login",
-        model:"system_user",
+        model:"user",
     }
 )
 
@@ -755,13 +755,13 @@ await axios.post("http://localhost:80808",
             password:"example",
         },
         method:"register",
-        model:"system_user",
+        model:"user",
     }
 )
 
 await axios.post("http://localhost:80808",
         method:"schema",
-        model:"system_user",
+        model:"user",
     }
 )
 
@@ -775,7 +775,7 @@ await axios.post("http://localhost:80808",
 // Test method for can you make this request?.
 
 fookie.use((ctx)=>{
-    let model = ctx.store.get("model").get("system_model")
+    let model = ctx.store.get("model").get("model")
     model.methods.set("hi",function(payload,ctx)){ // payload {user,method,body,options,query,ctx}
        console.log("hi")
     })

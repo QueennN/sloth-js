@@ -10,7 +10,7 @@ module.exports = async function (payload, ctx) {
    }
    let userResponse = await ctx.run({
       system: true,
-      model: "system_user",
+      model: "user",
       method: "get",
       query: {
          _id: parsed._id,

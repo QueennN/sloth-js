@@ -36,6 +36,7 @@ class Fookie {
       this.effects = new Map();
       this.routines = new Map();
       this.filters = new Map();
+      this.databases = new Map();
       this.modifies = new Map();
       this.mixins = new Map();
       this.store = new Map();
@@ -97,6 +98,10 @@ class Fookie {
       this.filters.set(name, filter);
    }
 
+   database(name, database) {
+      this.databases.set(name, database);
+   }
+
    modify(name, before) {
       this.modifies.set(name, before);
    }
@@ -109,35 +114,12 @@ class Fookie {
          model = deepMerge(model, this.mixins.get(i))
       }
       schemaFixer(model);
-      let parsedSchema = mongooseModelParser(model);
-
-      let Model = mongoose.model(model.name, new Schema(parsedSchema, { versionKey: false }));
       model.methods = new Map();
-      model.methods.set("get", async function (payload, ctx) {
-         let res = await Model.findOne(payload.query, payload.attributes, payload.projection);
-         return res;
-      });
-      model.methods.set("getAll", async function (payload, ctx) {
-         let res = await Model.find(payload.query, payload.attributes, payload.projection);
-         return res;
-      });
-      model.methods.set("post", async function (payload, ctx) {
-         let res = await Model.create(payload.body);
-         return res;
-      });
-      model.methods.set("delete", async function (payload, ctx) {
-         let res = await Model.deleteMany(payload.query);
-         return res;
-      });
-      model.methods.set("patch", async function (payload, ctx) {
-         return await Model.updateMany(payload.query, payload.body);
-      });
+
+      this.databases.get(model.database).modify(model,this)
+
       model.methods.set("model", async function (payload, ctx) {
          return JSON.parse(JSON.stringify(model))
-      });
-      model.methods.set("count", async function (payload, ctx) {
-         let res = await Model.countDocuments(payload.query);
-         return res;
       });
 
       model.methods.set("test", async function (payload, ctx) {
@@ -154,7 +136,6 @@ class Fookie {
          return false;
       });
 
-      model.model = Model;
       this.models.set(model.name, model);
       return model;
    }
@@ -179,11 +160,12 @@ class Fookie {
          } else {
             payload.response.status = 400;
          }
-         for await (let b of this.store.get("afters")) {
-            await this.effects.get(b)(payload, ctx);
-         }
+        
       } else {
          payload.response.status = 400;
+      }
+      for await (let b of this.store.get("afters")) {
+         await this.effects.get(b)(payload, ctx);
       }
       return payload.response;
    }
