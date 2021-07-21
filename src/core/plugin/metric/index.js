@@ -1,9 +1,15 @@
 module.exports = async function(ctx){
     ctx.prometheus.collectDefaultMetrics()
     ctx.metrics = {}
-    ctx.metrics.request = new ctx.prometheus.Counter({name:"request",help:"request counter"})
+    ctx.metrics.request = new ctx.prometheus.Counter({name:"fookie_request",help:"request counter"})
+
+    ctx.metrics.response_time  = new ctx.prometheus.Summary({  
+        name: 'fookie_response_time',
+        help: 'Response time in millis',
+        labelNames: ['model', 'method']
+    });
 
     ctx.app.get("/metrics", async (req, res) => {
-        res.status(200).json(await ctx.prometheus.register.metrics())
+        res.status(200).end(await ctx.prometheus.register.metrics())
     })
 }

@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const mongooseModelParser = require("./helpers/mongooseModelParser");
 const schemaFixer = require("./helpers/schema_fixer.js");
 const rule = require("./life-cycle/rule.js");
 const effect = require("./life-cycle/effect.js");
@@ -15,7 +14,6 @@ const mongoose = require("mongoose");
 const deepMerge = require("deepmerge");
 const axios = require("axios");
 const faker = require("faker");
-const { Schema } = mongoose;
 const Discord = require("discord.js");
 const sequelize = require("sequelize");
 const aws = require("aws-sdk");

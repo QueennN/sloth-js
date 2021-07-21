@@ -6,14 +6,10 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 3000:3000
-    networks: #here
-      - my-network
   mongo:
     image: mongo
     ports:
         - 27017:27017
-    networks: #here
-      - my-network 
   grafana:
     image: grafana/grafana
     ports:
@@ -21,9 +17,7 @@ services:
   prometheus:
     image: prom/prometheus:v2.6.1
     ports:
-      - '9090:9090'    
-    networks:
-      - my-network 
-networks:
-  my-network:
-    driver: bridge
+      - '9090:9090'
+    volumes: 
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+
