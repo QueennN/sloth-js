@@ -6,7 +6,9 @@ module.exports = async function (payload, ctx) {
       })
    ) {
       for (let m of arr) {
+         let start = Date.now()         
          await ctx.modifies.get(m)(payload, ctx);
+         ctx.metrics.fookie_lifecycle_function_time.labels("modify",m).observe(Date.now()-start)
       }
    } else {
       throw Error("Missing modify");

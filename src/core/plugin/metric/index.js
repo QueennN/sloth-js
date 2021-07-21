@@ -9,6 +9,13 @@ module.exports = async function(ctx){
         labelNames: ['model', 'method']
     });
 
+
+    ctx.metrics.fookie_lifecycle_function_time  = new ctx.prometheus.Summary({  
+        name: 'fookie_lifecycle_function_time',
+        help: 'Response time for lifecycle methods.',
+        labelNames: ['step', 'function_name']
+    });
+
     ctx.app.get("/metrics", async (req, res) => {
         res.status(200).end(await ctx.prometheus.register.metrics())
     })

@@ -1,10 +1,12 @@
 module.exports = async function (payload, ctx) {
    let rules = await ctx.helpers.defaultArrayCalc(payload, "rule");
    if (rules.every((i) => ctx.rules.has(i))) {
-      for (let i of rules) {
-         let res = await ctx.rules.get(i)(payload, ctx);
+      for (let rule of rules) {
+         let start = Date.now()
+         let res = await ctx.rules.get(rule)(payload, ctx);
+         ctx.metrics.fookie_lifecycle_function_time.labels("filter",rule).observe(Date.now()-start)
          if (res == false) {
-            payload.response.warnings.push(`false rule: ${i}`);
+            payload.response.warnings.push(`false rule: ${rule}`);
             return false;
          }
       }
