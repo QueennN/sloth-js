@@ -172,8 +172,7 @@ class Fookie {
    }
 
    async connect(database,url,config) {
-      console.log(this.databases.get("mongodb"));
-      this.databases.get("mongodb").connect(url,config)
+      this.databases.get(database).connect(url,config)
    }
 
    async use(cb) {

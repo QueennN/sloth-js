@@ -1,9 +1,14 @@
 module.exports = {
    name: "model",
-   database:"store",
+   database:"mongodb",
    display: "name",
    schema: {
       name: {
+         input: "text",
+         required: true,
+         type: "string",
+      },
+      database: {
          input: "text",
          required: true,
          type: "string",
@@ -24,6 +29,10 @@ module.exports = {
          required: true,
          type: "object",
       },
+      mixin:{
+         input: "json",
+         type: "array",
+      }
    },
    lifecycle: {
       get: {
@@ -50,4 +59,5 @@ module.exports = {
          role: ["admin"],
       },
    },
+   mixin:[]
 };

@@ -9,6 +9,7 @@ module.exports = async function (ctx) {
             boolean: ctx.mongoose.Schema.Types.Boolean,
             object: ctx.mongoose.Schema.Types.Mixed,
             _id: ctx.mongoose.Schema.Types.ObjectId,
+            array:ctx.mongoose.Schema.Types.Array
         },
         connect: async function (url,config) {
             await ctx.mongoose.connect(url, config);
