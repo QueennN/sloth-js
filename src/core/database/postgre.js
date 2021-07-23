@@ -4,7 +4,12 @@ module.exports = async function(ctx){
         types:{},
         pk:"id",
         connect:async function(config){
-            console.log("connection");
+            const sequelize = new ctx.sequelize(config.url,{
+                define: {
+                  freezeTableName: true
+                }
+              })
+            await sequelize.authenticate();
         },
         modify:async function (payload,model) {
             console.log("hi db");            

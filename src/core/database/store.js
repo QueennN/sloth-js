@@ -26,6 +26,7 @@ module.exports = async function(ctx){
             model.methods.set("count", async function (payload, ctx) {
                 return ctx.store.get(payload.model).size
             });        
-        }
+        },
+        mixin:[],
     })
 }

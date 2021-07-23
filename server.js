@@ -16,7 +16,7 @@ const Fookie = require("./src");
             input: "text",
             require: true
          },
-         data: {
+         value: {
             type: "string",
             input: "text",
             require: true
@@ -38,4 +38,16 @@ const Fookie = require("./src");
       },
    })
    fookie.listen(3000);
+
+
+   setTimeout(() => {
+      fookie.run({
+         system:true,
+         model:"testkv",
+         method:"post":
+         body:{
+            
+         }
+      })
+   }, 3500);
 })();

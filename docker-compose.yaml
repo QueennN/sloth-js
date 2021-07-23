@@ -20,6 +20,9 @@ services:
       - '9090:9090'
     volumes: 
       - ./prometheus.yaml:/etc/prometheus/prometheus.yml
-  redis:
-    image: "redis:alpine"
+  postgre:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 123
 
