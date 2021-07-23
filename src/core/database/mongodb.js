@@ -1,7 +1,8 @@
+const mongoose = require("mongoose")
 module.exports = async function (ctx) {
     ctx.database("mongodb", {
         name: "mongodb",
-        pk:"_id",
+        pk: "_id",
         types: {
             string: ctx.mongoose.Schema.Types.String,
             number: ctx.mongoose.Schema.Types.Number,
@@ -10,7 +11,7 @@ module.exports = async function (ctx) {
             boolean: ctx.mongoose.Schema.Types.Boolean,
             object: ctx.mongoose.Schema.Types.Mixed,
             _id: ctx.mongoose.Schema.Types.ObjectId,
-            array:ctx.mongoose.Schema.Types.Array
+            array: ctx.mongoose.Schema.Types.Array
         },
         connect: async function (config) {
             await ctx.mongoose.connect(config.url, config.options);
@@ -28,7 +29,7 @@ module.exports = async function (ctx) {
                 schema[f].type = this.types[model.schema[f].type];
             }
 
-            let Model = ctx.mongoose.model(model.name, new ctx.mongoose.Schema(schema, { versionKey: false }));
+            let Model = mongoose.model(model.name, new mongoose.Schema(schema, { versionKey: false }));
 
 
             model.methods.set("get", async function (payload, ctx) {
@@ -41,14 +42,15 @@ module.exports = async function (ctx) {
             });
             model.methods.set("post", async function (payload, ctx) {
                 let res = await Model.create(payload.body);
-                return res;
+                return ctx.lodash.pick(res, payload.attributes)
             });
             model.methods.set("delete", async function (payload, ctx) {
                 let res = await Model.deleteMany(payload.query);
                 return res;
             });
             model.methods.set("patch", async function (payload, ctx) {
-                return await Model.updateMany(payload.query, payload.body);
+                await Model.updateMany(payload.query, payload.body);
+                return payload.body
             });
 
             model.methods.set("count", async function (payload, ctx) {

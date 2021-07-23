@@ -62,7 +62,7 @@ module.exports = async function (ctx) {
          method: "post",
          body: {
             email,
-            password: sha512(password),
+            password,
          },
       });
 

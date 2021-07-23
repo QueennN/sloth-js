@@ -1,10 +1,11 @@
 # Introduction
 
-Fookie JS is a lifecycle-based web application development method. It does most things automatically for your APIs. In this way, it allows you to easily make our application with small code pieces.
+Fookie JS is a framework for a reactive programming.lifecycle-based web application development method. It does most things automatically for your APIs. In this way, it allows you to easily make our application with small code pieces.
 
 ## Core Features
 
 - Write clean and less code. (%70-%90 less code.I'm not kidding.)
+- Manage your fookie instance with API.  (Dont need configuration file)
 - Develop your application by adding small pieces of code
 - Default health check
 - Prometheus metric.

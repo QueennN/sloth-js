@@ -3,7 +3,7 @@ module.exports = async function(ctx){
         name:"postgre",
         types:{},
         pk:"id",
-        connect:async function(){
+        connect:async function(config){
             console.log("connection");
         },
         modify:async function (payload,model) {

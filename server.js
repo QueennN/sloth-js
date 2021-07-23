@@ -6,7 +6,6 @@ const Fookie = require("./src");
       options: { server: { auto_reconnect: true }, useNewUrlParser: true, useUnifiedTopology: true }
    });
 
-
    await fookie.model({
       name: "testkv",
       database: "store",

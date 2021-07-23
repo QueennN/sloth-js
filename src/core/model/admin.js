@@ -22,6 +22,7 @@ module.exports = {
       },
       delete: {
          role: ["admin"],
+         rule:["is_last_admin"]
       },
       model: {
          role: ["everybody"],

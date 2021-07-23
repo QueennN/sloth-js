@@ -175,8 +175,8 @@ class Fookie {
       this.routines.set(name, routine);
    }
 
-   async connect(database,url,config) {
-      this.databases.get(database).connect(url,config)
+   async connect(database,config) {
+      this.databases.get(database).connect(config)
    }
 
    async use(cb) {
