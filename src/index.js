@@ -40,6 +40,7 @@ class Fookie {
       this.modifies = new Map();
       this.mixins = new Map();
       this.store = new Map();
+      this.store.set("model",[])
       this.modelParser = new Map();
       this.lodash = lodash;
       this.axios = axios;
@@ -115,13 +116,14 @@ class Fookie {
       }
       schemaFixer(model);
       model.methods = new Map();
-      this.databases.get(model.database).modify(model,this)
+      this.databases.get(model.database).modify(model, this)
+
       model.methods.set("model", async function (payload, ctx) {
          return JSON.parse(JSON.stringify(model))
       });
 
       model.methods.set("test", async function (payload, ctx) {
-         payload.method = payload.options.method+'';
+         payload.method = payload.options.method + '';
          for (let b of ctx.store.get("befores")) {
             await ctx.modifies.get(b)(payload, ctx);
          }
@@ -135,6 +137,7 @@ class Fookie {
       });
 
       this.models.set(model.name, model);
+      this.store.get("model").push(model)
       return model;
    }
 
@@ -143,8 +146,8 @@ class Fookie {
    }
 
    async run(payload) {
-      let ctx = this;   
-      for (let b of this.store.get("befores")) {        
+      let ctx = this;
+      for (let b of this.store.get("befores")) {
          await this.modifies.get(b)(payload, ctx);
       }
       if (await preRule(payload, ctx)) {
@@ -158,7 +161,7 @@ class Fookie {
          } else {
             payload.response.status = 400;
          }
-        
+
       } else {
          payload.response.status = 400;
       }
@@ -175,7 +178,7 @@ class Fookie {
       this.routines.set(name, routine);
    }
 
-   async connect(database,config) {
+   async connect(database, config) {
       this.databases.get(database).connect(config)
    }
 
@@ -202,8 +205,8 @@ class Fookie {
          )
          let res = await this.run({
             options: {
-               method:sample_model2,
-               version:true
+               method: sample_model2,
+               version: true
             },
             system: true,
             body: {},

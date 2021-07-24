@@ -1,31 +1,27 @@
 module.exports = async function (ctx) {
-   ctx.store.set("secret", "secret");
-   ctx.store.set("afters", ["metric","log"]);
-   ctx.store.set("befores", ["metric","default_payload", "set_user"]);
+
+
+
+   // MIXIN
+   ctx.mixin("default_mixin",require("./mixin/default_mixin"))
 
    ctx.use(require('./database/cassandra'))
    ctx.use(require('./database/dynomodb'))
    ctx.use(require('./database/mongodb'))
    ctx.use(require('./database/postgre'))
    ctx.use(require('./database/store'))
-
-   // MIXIN
-   ctx.mixin("default_mixin",require("./mixin/default_mixin"))
-
-   //MODELS
-   ctx.model(require("./model/model.js"));
-   ctx.model(require("./model/menu.js"));
-   ctx.model(require("./model/submenu.js"));
-   ctx.model(require("./model/admin.js"));
-   ctx.model(require("./model/webhook.js"));
-
-   // IMPORTANT PLUGINS
+   
+   ctx.store.set("secret", "secret");
+   ctx.store.set("afters", ["metric","log"]);
+   ctx.store.set("befores", ["metric","default_payload", "set_user"]);
    await ctx.use(require("../helpers/after_before_calculater"));
    await ctx.use(require("./plugin/health_check"));
    await ctx.use(require("../helpers/default_life_cycle_controls"));
    await ctx.use(require("./plugin/first_of_all"));
 
-   //RULES
+
+   await ctx.use(require("./plugin/metric/index"));
+
    ctx.rule("has_fields", require("./rule/has_fields"));
    ctx.rule("check_required", require("./rule/check_required"));
    ctx.rule("only_client", require("./rule/only_client"));
@@ -73,8 +69,21 @@ module.exports = async function (ctx) {
 
 
 
+
+   //MODELS
+   ctx.model(require("./model/model.js"));
+   ctx.model(require("./model/menu.js"));
+   ctx.model(require("./model/submenu.js"));
+   ctx.model(require("./model/admin.js"));
+   ctx.model(require("./model/webhook.js"));
+
+   // IMPORTANT PLUGINS
+ 
+
+   //RULES
+   
    // PLUGINS
    //await ctx.use(require("./defaults/plugin/file_storage"))
-   await ctx.use(require("./plugin/metric/index"));
+
    await ctx.use(require("./plugin/user"));
 };
