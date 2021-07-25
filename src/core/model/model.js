@@ -4,6 +4,7 @@ module.exports = {
    display: "name",
    schema: {
       name: {
+         unique: true,
          input: "text",
          required: true,
          type: "string",
