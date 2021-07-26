@@ -1,8 +1,16 @@
 module.exports = async function (ctx) {
     ctx.database("store", {
         name: "store",
-        pk: "key",
-        types: {},
+        pk: "id",
+        types: {
+            any:null,
+            object:Object,
+            string:String,
+            number:Number,
+            boolean:Boolean,
+            function:Function,
+            array:Array,
+        },
         connect: async function () {
             console.log("Local store connected...");
         },
@@ -16,17 +24,17 @@ module.exports = async function (ctx) {
             });
 
             model.methods.set("post", async function (payload, ctx) {
-                console.log(1);
+                payload.id = "mdb_" + ctx.uuid.v4()
                 ctx.store.get(payload.model).push(payload.body)
                 return payload.body
             });
 
             model.methods.set("delete", async function (payload, ctx) {
-                ctx.store.set(payload.model,ctx.lodash.filter(ctx.store.get(payload.model), payload.query)) 
+                ctx.store.set(payload.model, ctx.lodash.filter(ctx.store.get(payload.model), payload.query))
             });
 
             model.methods.set("count", async function (payload, ctx) {
-                return ctx.store.get(payload.model).length
+                return ctx.lodash.filter(ctx.store.get(payload.model), payload.query).length
             });
         },
         mixin: [],

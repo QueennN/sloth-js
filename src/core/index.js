@@ -11,6 +11,12 @@ module.exports = async function (ctx) {
    ctx.use(require('./database/postgre'))
    ctx.use(require('./database/store'))
 
+   ctx.model(require('./model/role'))
+   ctx.model(require('./model/rule'))
+   ctx.model(require('./model/modify'))
+   ctx.model(require('./model/effect'))
+   ctx.model(require('./model/filter'))
+
    ctx.store.set("secret", "secret");
    ctx.store.set("afters", ["metric", "log"]);
    ctx.store.set("befores", ["metric", "default_payload", "set_user"]);

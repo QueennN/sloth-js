@@ -27,6 +27,7 @@ const CryptoJS = require("crypto-js");
 const pckg = require("../package.json");
 const redis = require("redis");
 const cassandra = require('cassandra-driver');
+const uuid = require('uuid');
 
 class Fookie {
    constructor() {
@@ -61,6 +62,7 @@ class Fookie {
       this.prometheus = prometheus
       this.package = pckg;
       this.deepMerge = deepMerge
+      this.uuid = uuid
       this.helpers = {
          rule,
          effect,
