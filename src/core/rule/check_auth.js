@@ -1,8 +1,5 @@
 module.exports = async function (payload, ctx) {
-   if (ctx.lodash.has(payload, "system")) {
-      return payload.system;
-   }
-   let roles = ctx.helpers.defaultArrayCalc(payload, "role");
+   let roles = ["system"].concat(ctx.helpers.defaultArrayCalc(payload, "role"))
 
    if (roles.length == 0) return true;
 

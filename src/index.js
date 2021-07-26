@@ -88,41 +88,76 @@ class Fookie {
       this.use(core);
    }
 
-   mixin(name, mixin) {
-      this.mixins.set(name, mixin);
+   async mixin(declaration) {
+      await this.run({
+         system: true,
+         model: "mixin",
+         method: "post",
+         body: declaration
+      })
    }
 
-   rule(name, rule) {
-      this.rules.set(name, rule);
+   async rule(declaration) {
+      await this.run({
+         system: true,
+         model: "rule",
+         method: "post",
+         body: declaration
+      })
    }
 
-   role(name, role) {
-      this.roles.set(name, role);
+   async role(declaration) {
+      await this.run({
+         system: true,
+         model: "role",
+         method: "post",
+         body: declaration
+      })
    }
 
-   filter(name, filter) {
-      this.filters.set(name, filter);
+   async filter(declaration) {
+      await this.run({
+         system: true,
+         model: "filter",
+         method: "post",
+         body: declaration
+      })
    }
 
-   database(name, database) {
-      this.databases.set(name, database);
+   async atabase(declaration) {
+      await this.run({
+         system: true,
+         model: "database",
+         method: "post",
+         body: declaration
+      })
    }
 
-   modify(name, before) {
-      this.modifies.set(name, before);
+   async modify(declaration) {
+      await this.run({
+         system: true,
+         model: "modify",
+         method: "post",
+         body: declaration
+      })
    }
 
-   async model(model) {
+   async model(declaration) {
       await this.run({
          system: true,
          model: "model",
          method: "post",
-         body: model
+         body: declaration
       })
    }
 
-   async effect(name, effect) {
-      this.effects.set(name, effect);
+   async effect(declaration) {
+      await this.run({
+         system: true,
+         model: "effect",
+         method: "post",
+         body: declaration
+      })
    }
 
    async run(payload) {
@@ -158,8 +193,15 @@ class Fookie {
       this.routines.set(name, routine);
    }
 
-   async connect(database, config) {
-      this.databases.get(database).connect(config)
+   async connect(databaseName, config) {
+      await this.run({
+         system: true,
+         model: "database",
+         model: "get",
+         query: {
+            name: databaseName
+         }
+      }).connect(config)
    }
 
    async use(cb) {
@@ -173,6 +215,7 @@ class Fookie {
    }
 
    async fuzzer(times) {
+      // lodash product kullanabilirsin
       let version = this.package.version
       this.package.version = "test"
       for (let i = 0; i < times; i++) {
@@ -183,7 +226,7 @@ class Fookie {
             this.lodash.sample(Array.from(this.models).map(i => i[1])).lifecycle
          )
          )
-         let res = await this.run({
+         await this.run({
             options: {
                method: sample_model2,
                version: true

@@ -1,21 +1,20 @@
 module.exports = async function (ctx) {
 
+   //MODELS
+   ctx.models.set("model", await ctx.helpers.schemaFixer(require("./model/model.js"))) // FAKE MODEL DECLARETION FOR NO ERROR
+   ctx.models.get("model").methods = new Map()
+   ctx.models.get("model").methods.set("post", () => { })
+   ctx.model(require("./model/model.js"));
 
 
    // MIXIN
    ctx.mixin("default_mixin", require("./mixin/default_mixin"))
-
    ctx.use(require('./database/cassandra'))
    ctx.use(require('./database/dynomodb'))
    ctx.use(require('./database/mongodb'))
    ctx.use(require('./database/postgre'))
    ctx.use(require('./database/store'))
 
-   ctx.model(require('./model/role'))
-   ctx.model(require('./model/rule'))
-   ctx.model(require('./model/modify'))
-   ctx.model(require('./model/effect'))
-   ctx.model(require('./model/filter'))
 
    ctx.store.set("secret", "secret");
    ctx.store.set("afters", ["metric", "log"]);
@@ -80,18 +79,15 @@ module.exports = async function (ctx) {
    ctx.modify("fix_schema", require("./modify/fix_schema"));
 
 
-
-
-   //MODELS
-   ctx.models.set("model", await ctx.helpers.schemaFixer(require("./model/model.js"))) // FAKE MODEL DECLARETION FOR NO ERROR
-   ctx.models.get("model").methods = new Map()
-   ctx.models.get("model").methods.set("post",()=>{})
-
-   ctx.model(require("./model/model.js"));
    ctx.model(require("./model/menu.js"));
    ctx.model(require("./model/submenu.js"));
    ctx.model(require("./model/admin.js"));
    ctx.model(require("./model/webhook.js"));
+   ctx.model(require('./model/role'))
+   ctx.model(require('./model/rule'))
+   ctx.model(require('./model/modify'))
+   ctx.model(require('./model/effect'))
+   ctx.model(require('./model/filter'))
 
 
 
