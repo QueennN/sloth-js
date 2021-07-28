@@ -22,12 +22,15 @@ module.exports = {
         },
         patch: {
             role: ["admin"],
+            effect: ["sync"],
         },
         post: {
             role: ["admin"],
+            effect: ["sync"],
         },
         delete: {
             role: ["admin"],
+            effect: ["sync"],
         },
         model: {
             role: ["everybody"],

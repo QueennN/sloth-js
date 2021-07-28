@@ -1,5 +1,5 @@
 module.exports = {
-   name: "metrics",
+   name: "simplified",
    function: async function (payload, ctx) {
       if (ctx.lodash.has(payload.options, "simplified") && payload.options.simplified == true) {
          if (ctx.lodash.isArray(payload.response.data)) {

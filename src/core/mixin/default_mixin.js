@@ -1,5 +1,5 @@
 module.exports = {
-    name: "metrics",
+    name: "default_mixin",
     object: {
     schema:{
         version:{

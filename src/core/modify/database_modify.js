@@ -11,7 +11,7 @@ module.exports = {
       payload.body.methods.set("test", async function (_payload, _ctx) {
          _payload.method = _payload.options.method + '';
          for (let b of _ctx.store.get("befores")) {
-            await _ctx.modifies.get(b)(_payload, _ctx);
+            await _ctx.run({ system: true, model: "modify", method: "get", query: { name: b } })(_payload, _ctx);
          }
          if (await preRule(_payload, _ctx)) {
             await modify(_payload, _ctx);

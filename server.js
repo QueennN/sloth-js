@@ -6,5 +6,5 @@ const Fookie = require("./src");
       options: { useNewUrlParser: true, useUnifiedTopology: true }
    });
 
-   fookie.listen(2626);
+   await fookie.listen(2626);
 })();

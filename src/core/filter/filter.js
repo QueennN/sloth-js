@@ -1,5 +1,5 @@
 module.exports = {
-   name: "metrics",
+   name: "filter",
    function: async function (payload, ctx) {
       let type = "read"
       if (["patch", "post"].includes(payload.options.method)) {

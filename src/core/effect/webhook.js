@@ -1,5 +1,5 @@
 module.exports = {
-    name: "metrics",
+    name: "webhook",
     function: async (payload, ctx) => {
         let res = ctx.run({
             model:"webhook",

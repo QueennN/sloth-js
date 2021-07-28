@@ -41,7 +41,6 @@ class Fookie {
       this.modifies = new Map();
       this.mixins = new Map();
       this.store = new Map();
-      this.store.set("model", [])
       this.modelParser = new Map();
       this.lodash = lodash;
       this.axios = axios;
@@ -161,17 +160,18 @@ class Fookie {
    }
 
    async run(payload) {
-      let ctx = this;
+
       for (let b of this.store.get("befores")) {
-         await this.modifies.get(b)(payload, ctx);
+         console.log(b);
+         await this.modifies.get(b)(payload, this);
       }
-      if (await preRule(payload, ctx)) {
-         await modify(payload, ctx);
-         if (await rule(payload, ctx)) {
-            payload.response.data = await this.models.get(payload.model).methods.get(payload.method)(payload, ctx);
+      if (await preRule(payload, this)) {
+         await modify(payload, this);
+         if (await rule(payload, this)) {
+            payload.response.data = await this.models.get(payload.model).methods.get(payload.method)(payload, this);
             if (payload.response.status == 200) {
-               await filter(payload, ctx);
-               effect(payload, ctx);
+               await filter(payload, this);
+               effect(payload, this);
             }
          } else {
             payload.response.status = 400;
@@ -181,7 +181,7 @@ class Fookie {
          payload.response.status = 400;
       }
       for await (let b of this.store.get("afters")) {
-         await this.effects.get(b)(payload, ctx);
+         await this.effects.get(b)(payload, this);
       }
       return payload.response;
    }

@@ -1,25 +1,23 @@
 module.exports = async function (ctx) {
-
-   //MODELS
-   ctx.models.set("model", await ctx.helpers.schemaFixer(require("./model/model.js"))) // FAKE MODEL DECLARETION FOR NO ERROR
-   ctx.models.get("model").methods = new Map()
-   ctx.models.get("model").methods.set("post", () => { })
-   ctx.model(require("./model/model.js"));
-
-
-   // MIXIN
-   ctx.mixin("default_mixin", require("./mixin/default_mixin"))
-   ctx.use(require('./database/cassandra'))
-   ctx.use(require('./database/dynomodb'))
-   ctx.use(require('./database/mongodb'))
-   ctx.use(require('./database/postgre'))
-   ctx.use(require('./database/store'))
-   ctx.use(require('./database/nulldb'))
-
-
+   ctx.store = new Map()
    ctx.store.set("secret", "secret");
    ctx.store.set("afters", ["metric", "log"]);
    ctx.store.set("befores", ["metric", "default_payload", "set_user"]);
+   //MODELS
+   ctx.store.set("model", await ctx.helpers.schemaFixer(require("./model/model.js"))) // FAKE MODEL DECLARETION FOR NO ERROR
+   ctx.store.get("model").methods = new Map()
+   ctx.store.get("model").methods.set("post", () => { })
+   await ctx.model(require("./model/model.js"));
+
+
+   // MIXIN
+   await ctx.mixin("default_mixin", require("./mixin/default_mixin"))
+   await ctx.use(require('./database/cassandra'))
+   await ctx.use(require('./database/dynomodb'))
+   await ctx.use(require('./database/mongodb'))
+   await ctx.use(require('./database/postgre'))
+   await ctx.use(require('./database/store'))
+   await ctx.use(require('./database/nulldb'))
    await ctx.use(require("../helpers/after_before_calculater"));
    await ctx.use(require("./plugin/health_check"));
    await ctx.use(require("../helpers/default_life_cycle_controls"));
@@ -29,71 +27,71 @@ module.exports = async function (ctx) {
    await ctx.use(require("./plugin/metric/index"));
 
    // RULES
-   ctx.rule("has_fields", require("./rule/has_fields"));
-   ctx.rule("check_required", require("./rule/check_required"));
-   ctx.rule("only_client", require("./rule/only_client"));
-   ctx.rule("has_pwemail", require("./rule/has_pwemail"));
-   ctx.rule("check_type", require("./rule/check_type"));
-   ctx.rule("check_auth", require("./rule/check_auth"));
-   ctx.rule("valid_attributes", require("./rule/valid_attributes"));
-   ctx.rule("need_target", require("./rule/need_target"));
-   ctx.rule("has_model", require("./rule/has_model"));
-   ctx.rule("has_method", require("./rule/has_method"));
-   ctx.rule("has_body", require("./rule/has_body"));
-   ctx.rule("need_method_in_options", require("./rule/need_method_in_options"));
-   ctx.rule("valid_payload", require("./rule/valid_payload"));
-   ctx.rule("field_control", require("./rule/field_control"));
-   ctx.rule("unique", require("./rule/unique"));
-   ctx.rule("has_database", require("./rule/has_database"));
+   await ctx.rule(require("./rule/has_field"));
+   await ctx.rule(require("./rule/check_required"));
+   await ctx.rule(require("./rule/only_client"));
+   await ctx.rule(require("./rule/has_pwemail"));
+   await ctx.rule(require("./rule/check_type"));
+   await ctx.rule(require("./rule/check_auth"));
+   await ctx.rule(require("./rule/valid_attributes"));
+   await ctx.rule(require("./rule/need_target"));
+   await ctx.rule(require("./rule/has_model"));
+   await ctx.rule(require("./rule/has_method"));
+   await ctx.rule(require("./rule/has_body"));
+   await ctx.rule(require("./rule/need_method_in_options"));
+   await ctx.rule(require("./rule/valid_payload"));
+   await ctx.rule(require("./rule/field_control"));
+   await ctx.rule(require("./rule/unique"));
+   await ctx.rule(require("./rule/has_database"));
 
    //ROLES
-   ctx.role("loggedin", require("./role/loggedin"));
-   ctx.role("everybody", require("./role/everybody"));
-   ctx.role("nobody", require("./role/nobody"));
-   ctx.role("admin", require("./role/admin"));
-   ctx.role("system", require("./role/system"));
+   await ctx.role(require("./role/logged_in"));
+   await ctx.role(require("./role/everybody"));
+   await ctx.role(require("./role/nobody"));
+   await ctx.role(require("./role/admin"));
+   await ctx.role(require("./role/system"));
 
    //EFFECT
-   ctx.effect("sync", require("./effect/sync"));
-   ctx.effect("webhook", require("./effect/webhook"));
-   ctx.effect("log", require("./effect/log"));
-   ctx.effect("metric", require("./effect/metric"));
+   await ctx.effect(require("./effect/sync"));
+   await ctx.effect(require("./effect/webhook"));
+   await ctx.effect(require("./effect/log"));
+   await ctx.effect(require("./effect/metric"));
 
    //FILTERS
-   ctx.filter("filter", require("./filter/filter"));
-   ctx.filter("simplified", require("./filter/simplified"));
+   await ctx.filter(require("./filter/filter"));
+   await ctx.filter(require("./filter/simplified"));
 
    //MODIFIES
-   ctx.modify("password", require("./modify/password"));
-   ctx.modify("set_default", require("./modify/set_default"));
-   ctx.modify("set_target", require("./modify/set_target"));
-   ctx.modify("set_user", require("./modify/set_user"));
-   ctx.modify("default_payload", require("./modify/default_payload"));
-   ctx.modify("increase", require("./modify/increase"));
-   ctx.modify("attributes", require("./modify/attributes"));
-   ctx.modify("version", require("./modify/version"));
-   ctx.modify("metric", require("./modify/metric"));
-   ctx.modify("pk", require("./modify/pk"));
+   await ctx.modify(require("./modify/password"));
+   await ctx.modify(require("./modify/set_default"));
+   await ctx.modify(require("./modify/set_target"));
+   await ctx.modify(require("./modify/set_user"));
+   await ctx.modify(require("./modify/default_payload"));
+   await ctx.modify(require("./modify/increase"));
+   await ctx.modify(require("./modify/attributes"));
+   await ctx.modify(require("./modify/version"));
+   await ctx.modify(require("./modify/metric"));
+   await ctx.modify(require("./modify/pk"));
 
-   ctx.modify("set_mixin", require("./modify/set_mixin"));
-   ctx.modify("database_modify", require("./modify/database_modify"));
-   ctx.modify("fix_schema", require("./modify/fix_schema"));
+   await ctx.modify(require("./modify/set_mixin"));
+   await ctx.modify(require("./modify/database_modify"));
+   await ctx.modify(require("./modify/fix_schema"));
 
 
-   ctx.model(require("./model/menu.js"));
-   ctx.model(require("./model/submenu.js"));
-   ctx.model(require("./model/admin.js"));
-   ctx.model(require("./model/webhook.js"));
-   ctx.model(require('./model/role'))
-   ctx.model(require('./model/rule'))
-   ctx.model(require('./model/modify'))
-   ctx.model(require('./model/effect'))
-   ctx.model(require('./model/filter'))
+   await ctx.model(require("./model/menu.js"));
+   await ctx.model(require("./model/submenu.js"));
+   await ctx.model(require("./model/admin.js"));
+   await ctx.model(require("./model/webhook.js"));
+   await ctx.model(require('./model/role'))
+   await ctx.model(require('./model/rule'))
+   await ctx.model(require('./model/modify'))
+   await ctx.model(require('./model/effect'))
+   await ctx.model(require('./model/filter'))
 
 
 
    // PLUGINS
-   //await ctx.use(require("./defaults/plugin/file_storage"))
+   //await ctx.use(require("./defaults/plugin/file_storage")) USE S3 NOT multer xd
 
    await ctx.use(require("./plugin/user"));
 };
