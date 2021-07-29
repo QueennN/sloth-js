@@ -31,6 +31,7 @@ const uuid = require('uuid');
 
 class Fookie {
    constructor() {
+      this.store = new Map()
       this.models = new Map();
       this.rules = new Map();
       this.roles = new Map();
@@ -40,7 +41,6 @@ class Fookie {
       this.databases = new Map();
       this.modifies = new Map();
       this.mixins = new Map();
-      this.store = new Map();
       this.modelParser = new Map();
       this.lodash = lodash;
       this.axios = axios;
@@ -88,81 +88,49 @@ class Fookie {
    }
 
    async mixin(declaration) {
-      await this.run({
-         system: true,
-         model: "mixin",
-         method: "post",
-         body: declaration
-      })
+      this.mixins.set(declaration.name, declaration.object)
    }
 
    async rule(declaration) {
-      await this.run({
-         system: true,
-         model: "rule",
-         method: "post",
-         body: declaration
-      })
+      this.rules.set(declaration.name, declaration.function)
    }
 
    async role(declaration) {
-      await this.run({
-         system: true,
-         model: "role",
-         method: "post",
-         body: declaration
-      })
+      this.roles.set(declaration.name, declaration.function)
    }
 
    async filter(declaration) {
-      await this.run({
-         system: true,
-         model: "filter",
-         method: "post",
-         body: declaration
-      })
+      this.filters.set(declaration.name, declaration.function)
    }
 
-   async atabase(declaration) {
-      await this.run({
-         system: true,
-         model: "database",
-         method: "post",
-         body: declaration
-      })
+   async database(declaration) {
+      this.databases.set(declaration.name, declaration.object)
    }
 
    async modify(declaration) {
-      await this.run({
+     let res = await this.run({
          system: true,
-         model: "modify",
-         method: "post",
-         body: declaration
-      })
+         model: "model",
+         method:"post",
+         body:declaration
+      }
+      )
+      console.log(res);
+      this.modifies.set(res.name, res)
    }
 
    async model(declaration) {
-      await this.run({
-         system: true,
-         model: "model",
-         method: "post",
-         body: declaration
-      })
+      this.models.set(declaration.name, declaration.function)
    }
 
    async effect(declaration) {
-      await this.run({
-         system: true,
-         model: "effect",
-         method: "post",
-         body: declaration
-      })
+      this.effects.set(declaration.name, declaration.function)
    }
 
    async run(payload) {
+      console.log(this.store);
       for (let b of this.store.get("befores")) {
-         console.log(this.fastGet("modify", b, this));
-         await this.fastGet("modify", b, this).function(payload, this);
+         await this.modifies.get(b)(payload, this);
       }
       if (await preRule(payload, this)) {
          await modify(payload, this);
