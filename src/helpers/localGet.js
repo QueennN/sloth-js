@@ -4,8 +4,7 @@ module.exports = async function (ctx) {
             return ctx.lodash.find(ctx.store.get(model), { name })
         },
         has: function (model, name) {
-            console.log(ctx.store.get(model),1)
-            return ctx.lodash.includes(ctx.store.get(model), { name })
+            return ctx.lodash.filter(ctx.store.get(model), { name }).length > 0
         },
         set: function (model, declaration) {
             this.delete(model,declaration.name)

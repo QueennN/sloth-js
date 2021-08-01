@@ -5,7 +5,7 @@ module.exports = {
          if (ctx.lodash.isArray(payload.response.data)) {
             payload.response.data = payload.response.data.map(data => ctx.lodash.values(JSON.parse(JSON.stringify(data))));
          } else {
-            payload.response.data = ctx.lodash.values(JSON.parse(JSON.stringify(payload.response.data)));
+            payload.response.data = ctx.lodash.values(payload.response.data);
          }
 
       }

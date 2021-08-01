@@ -11,7 +11,7 @@ module.exports = {
          let roles = model.schema[field].read;
          let show = true;
          for (let role of roles) {
-            show = show && (await ctx.local.get("role", role)(payload));
+            show = show && (await ctx.local.get("role", role).function(payload));
          }
          if (!show) {
             payload.attributes = ctx.lodash.remove(payload.attributes, (f) => f != field);

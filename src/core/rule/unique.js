@@ -2,6 +2,7 @@
 module.exports = {
    name: "unique",
    function: async function (payload, ctx) {
+      return true //TODO
       let model = ctx.local.get("model",payload.model);
       let fields = ctx.lodash.keys(payload.body);
       

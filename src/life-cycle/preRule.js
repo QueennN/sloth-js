@@ -12,8 +12,7 @@ module.exports = async function (payload, ctx) {
       }
       return true;
    } else {
-      console.log(ctx.local.has("rule", "has_method"));
-      payload.response.warnings.push(`Missing preRule`, ctx.lodash.remove(rules, r => ctx.local.has(r)));
+      payload.response.warnings.push(`Missing preRule`, ctx.lodash.remove(rules, r => ctx.local.has("rule",r)));
       return false
    }
 };
