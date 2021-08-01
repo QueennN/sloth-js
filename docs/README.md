@@ -22,7 +22,7 @@ Fookie JS is a lifecycle-based web application development method. It does most 
 -  Request Life Cycle
 -  Everything is a plugin.
 -  Routines (SetInterval)
--  Deafult models, store.get("rule"), roles, store.get("filter"), store.get("effect"), store.get("modify") and methods.
+-  Deafult local, store.get("rule"), roles, store.get("filter"), store.get("effect"), store.get("modify") and methods.
 -  Mixins (Merge two different schema. Similar to vue mixins)
 
 ## Next Features
@@ -360,7 +360,7 @@ fookie.role(async function(payload,ctx){
 
 Fookie js comes with default libraries
 
-- ctx.models :Map
+- ctx.local :Map
 - ctx.store.get("rule") :Map
 - ctx.roles :Map
 - ctx.store :Map

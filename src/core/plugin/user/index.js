@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 const { sha512 } = require("js-sha512");
-const system_user = require("./model/user")
+
 module.exports = async function (ctx) {
-   await ctx.model(system_user)
-   let sys_user = ctx.models.get("user")
-   
+   ctx.local.set("model", require("./model/user"))
+   let sys_user = ctx.local.get("model", "user")
+   console.log(sys_user.methods);
    sys_user.methods.set("login", async ({ body, response }, ctx) => {
       let { email, password } = body;
       let res = await ctx.run({
@@ -41,11 +41,11 @@ module.exports = async function (ctx) {
 
       return res.status == 200;
    });
-   ctx.rule("is_last_admin",async function (payload,ctx){
+   ctx.rule("is_last_admin", async function (payload, ctx) {
       let res = await ctx.run({
-         system:true,
-         method:"count",
-         model:"admin"
+         system: true,
+         method: "count",
+         model: "admin"
       })
 
       return res.data != 1

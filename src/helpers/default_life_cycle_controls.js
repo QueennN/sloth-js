@@ -50,7 +50,7 @@ module.exports = async function (ctx) {
             after: ["attributes","version","pk"],
          },
          rule: {
-            before: [ "check_required","has_fields", "check_type" ,"field_control", "unique"],
+            before: [ "check_required","has_field", "check_type" ,"field_control", "unique"],
             after: ["check_auth"],
          },
          preRule: {
@@ -72,7 +72,7 @@ module.exports = async function (ctx) {
             after: ["attributes","pk"],
          },
          rule: {
-            before: ["need_target", "has_fields", "check_type", "check_required", "field_control", "unique"],
+            before: ["need_target", "has_field", "check_type", "check_required", "field_control", "unique"],
             after: ["check_auth"],
          },
          preRule: {

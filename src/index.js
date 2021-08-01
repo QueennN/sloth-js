@@ -32,15 +32,6 @@ const uuid = require('uuid');
 class Fookie {
    constructor() {
       this.store = new Map()
-      this.models = new Map();
-      this.rules = new Map();
-      this.roles = new Map();
-      this.effects = new Map();
-      this.routines = new Map();
-      this.filters = new Map();
-      this.databases = new Map();
-      this.modifies = new Map();
-      this.mixins = new Map();
       this.modelParser = new Map();
       this.lodash = lodash;
       this.axios = axios;
@@ -87,86 +78,53 @@ class Fookie {
       this.use(core);
    }
 
-   async mixin(declaration) {
-      await this.run({
-         system: true,
-         model: "mixin",
-         method: "post",
-         body: declaration
-      })
+   mixin(declaration) {
+      this.local.set("mixin", declaration)
    }
 
-   async rule(declaration) {
-      await this.run({
-         system: true,
-         model: "rule",
-         method: "post",
-         body: declaration
-      })
+   rule(declaration) {
+      this.local.set("rule", declaration)
    }
 
-   async role(declaration) {
-      await this.run({
-         system: true,
-         model: "role",
-         method: "post",
-         body: declaration
-      })
+   role(declaration) {
+      this.local.set("role", declaration)
    }
 
-   async filter(declaration) {
-      await this.run({
-         system: true,
-         model: "filter",
-         method: "post",
-         body: declaration
-      })
+   filter(declaration) {
+      this.local.set("filter", declaration)
    }
 
-   async database(declaration) {
-      await this.run({
-         system: true,
-         model: "database",
-         method: "post",
-         body: declaration
-      })
+   database(declaration) {
+      this.local.set("database", declaration)
    }
 
-   async modify(declaration) {
-      await this.run({
-         system: true,
-         model: "model",
-         method: "post",
-         body: declaration
-      })
+   modify(declaration) {
+      this.local.set("modify", declaration)
    }
 
    async model(declaration) {
-      await this.run({
+      let res = await this.run({
          system: true,
          model: "model",
          method: "post",
          body: declaration
+
       })
+      return res.data
    }
 
-   async effect(declaration) {
-      await this.run({
-         system: true,
-         model: "effect",
-         method: "post",
-         body: declaration
-      })
+   effect(declaration) {
+      this.local.set("effect", declaration)
    }
 
    async run(payload) {
       for (let b of this.store.get("befores")) {
-         await this.local.get("modify", b);
+         await this.local.get("modify", b).function(payload, this);
       }
       if (await preRule(payload, this)) {
          await modify(payload, this);
          if (await rule(payload, this)) {
-            payload.response.data = await this.local.get("model",payload.model).methods.get(payload.method)(payload, this);
+            payload.response.data = await this.local.get("model", payload.model).methods.get(payload.method)(payload, this);
             if (payload.response.status == 200) {
                await filter(payload, this);
                effect(payload, this);
@@ -179,7 +137,7 @@ class Fookie {
          payload.response.status = 400;
       }
       for await (let b of this.store.get("afters")) {
-         await this.effects.get(b)(payload, this);
+         await this.local.get("effect", b).function(payload, this);
       }
       return payload.response;
    }
@@ -192,20 +150,12 @@ class Fookie {
    }
 
    async connect(databaseName, config) {
-      let res = await this.run({
-         system: true,
-         model: "database",
-         model: "get",
-         query: {
-            name: databaseName
-         }
-      })
-
-      await res.data.connect(config)
+      let database = this.local.get("database", databaseName)
+      await database.connect(config)
    }
 
-   async use(cb) {
-      await cb(this);
+   use(cb) {
+      cb(this);
    }
 
    listen(port) {
@@ -220,10 +170,10 @@ class Fookie {
       this.package.version = "test"
       for (let i = 0; i < times; i++) {
 
-         let sample_model = this.lodash.sample(Array.from(this.models).map(i => i[1]))
-         let sample_model2 = this.lodash.sample(Array.from(this.models).map(i => i[1]))
+         let sample_model = this.lodash.sample(Array.from(this.local).map(i => i[1]))
+         let sample_model2 = this.lodash.sample(Array.from(this.local).map(i => i[1]))
          let sample_method = this.lodash.sample(this.lodash.keys(
-            this.lodash.sample(Array.from(this.models).map(i => i[1])).lifecycle
+            this.lodash.sample(Array.from(this.local).map(i => i[1])).lifecycle
          )
          )
          await this.run({

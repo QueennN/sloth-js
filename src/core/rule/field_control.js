@@ -4,7 +4,7 @@
 module.exports = {
    name: "field_control",
    function: async function (payload, ctx) {
-      let model = ctx.models.get(payload.model);
+      let model = ctx.local.get("model",payload.model);
       let fields = ctx.lodash.keys(payload.body);
       let res = true;
       for (let field of fields) {

@@ -11,22 +11,22 @@ module.exports = {
             let modifies = [];
             if (res) {
                try {
-                  modifies = ctx.models.get(payload.model).lifecycle[payload.method].resolve[role];
+                  modifies = ctx.local.get("model", payload.model).lifecycle[payload.method].resolve[role];
                } catch (error) { }
-               await Promise.all(modifies.map((m) => ctx.modifies.get(m)(payload, ctx)));
+               await Promise.all(modifies.map((m) => ctx.local.get("modify", m)(payload, ctx)));
                return true;
             }
 
             payload.response.warnings.push(`You are not: ${role}`);
             modifies = [];
             try {
-               modifies = ctx.models.get(payload.model).lifecycle[payload.method].reject[role];
+               modifies = ctx.local.get("model", payload.model).lifecycle[payload.method].reject[role];
             } catch (error) { }
             if (modifies.length == 0) return false;
             else {
                payload.response.warnings.push(`Rejected Role found. Payload manupilated.: ${role}`);
             }
-            await Promise.all(modifies.map((m) => ctx.modifies.get(m)(payload, ctx)));
+            await Promise.all(modifies.map((m) => ctx.local.get("modify", m)(payload, ctx)));
          }
          return true;
       } else {
