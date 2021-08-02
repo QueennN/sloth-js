@@ -69,7 +69,7 @@ class Fookie {
 
       this.app.post("/", async (req, res) => {
          let payload = req.body;
-         if (payload.user || payload.system) return false;
+         if (payload.user || typeof payload.system == "boolean") return false;
          if (!payload.token && req.headers.token) payload.token = req.headers.token;
          await this.run(payload, this);
          res.status(payload.response.status).json(payload.response.data);

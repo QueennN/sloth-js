@@ -5,7 +5,9 @@ module.exports = {
          payload.query.version = ctx.package.version;
       }
       if (payload.method == "post") {
-         payload.body.version = ctx.package.version;
+         if (typeof payload.body.version != "string") {
+            payload.body.version = ctx.package.version;
+         }
       }
    }
 }

@@ -1,4 +1,6 @@
 module.exports = async function (ctx) {
+
+   ctx.store.set("system_token",process.env.SYSTEM_TOKEN || "admin")
    ctx.store.set("model", []);
    ctx.store.set("mixin", []);
    ctx.store.set("database", []);
@@ -85,6 +87,7 @@ module.exports = async function (ctx) {
 
    //local
    let model = require("./model/model.js")
+
    model.methods = new Map()
    model.methods.set("post", () => {
       throw Error("CORE ERRORED")
@@ -92,9 +95,10 @@ module.exports = async function (ctx) {
    model.methods.set("count", () => {
       throw Error("CORE ERRORED")
    })
-   ctx.local.set("model", ctx.helpers.schemaFixer(model));
-   await ctx.model(ctx.helpers.schemaFixer(model));
-
+   model.version = "mock"
+   ctx.local.set("model", ctx.helpers.schemaFixer(ctx.lodash.cloneDeep(model)));
+   model.version = null
+   await ctx.model(ctx.helpers.schemaFixer(ctx.lodash.cloneDeep(model)));
 
 
 
