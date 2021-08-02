@@ -12,7 +12,7 @@ module.exports = async function (ctx) {
 
    ctx.store.set("secret", "secret");
    ctx.store.set("afters", ["metric", "log"]);
-   ctx.store.set("befores", ["default_payload", "metric"]);
+   ctx.store.set("befores", ["default_payload", "metric"]); // TODO set user
    ctx.use(require("../helpers/localGet.js"))
 
    ctx.use(require("../helpers/after_before_calculater"));
