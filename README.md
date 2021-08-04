@@ -48,6 +48,8 @@ https://umudikk.github.io/fookie/#/
 ## Discord
 https://discord.gg/XJBTyG73TG
 
+## Postman Documentation
+https://documenter.getpostman.com/view/5303589/TzshH5Pg#27eab3bd-942d-4e8a-9354-b9d0d40514ea
 
 
 ## Installation
