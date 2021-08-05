@@ -44,7 +44,7 @@ module.exports = async function (ctx) {
             after: [],
          },
       },
-      post: {
+      create: {
          modify: {
             before: ["set_default", "increase"],
             after: ["attributes","version","pk"],
@@ -66,7 +66,7 @@ module.exports = async function (ctx) {
             after: [],
          },
       },
-      patch: {
+      update: {
          preRule: {
             before: ["has_model", "has_method", "has_body"],
             after: ["valid_payload"],

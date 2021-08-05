@@ -57,7 +57,7 @@ module.exports = function (ctx) {
                 let res = await Model.find(payload.query, payload.attributes, payload.projection).lean();
                 return res;
             });
-            model.methods.set("post", async function (payload, ctx) {
+            model.methods.set("create", async function (payload, ctx) {
                 let res = await Model.create(payload.body);
                 return ctx.lodash.pick(res, payload.attributes)
             });
@@ -65,7 +65,7 @@ module.exports = function (ctx) {
                 let res = await Model.deleteMany(payload.query);
                 return res;
             });
-            model.methods.set("patch", async function (payload, ctx) {
+            model.methods.set("update", async function (payload, ctx) {
                 return await Model.updateMany(payload.query, payload.body);
             });
 

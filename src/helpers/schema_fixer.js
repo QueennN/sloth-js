@@ -1,7 +1,7 @@
 const deepMerge = require("deepmerge");
 const lodash = require('lodash')
 module.exports = function (model) {
-   let methods = ["post", "get", "getAll", "patch", "delete", "model", "count", "test"];
+   let methods = ["create", "get", "getAll", "update", "delete", "model", "count", "test"];
    methods = methods.concat(lodash.keys(model.lifecycle))
    methods = lodash.uniq(methods)
 

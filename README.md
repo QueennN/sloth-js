@@ -10,7 +10,7 @@ Fookie JS is a framework to create web application in minutes. Fookie JS uses re
 - Default health check
 - Prometheus metric.
 - Password & Email base authentication.
-- Auto generated methods for every model (post , delete , patch , count , model,
+- Auto generated methods for every model (post , delete , update , count , model,
   get , getAll , test)
 - Huge default library like Autocode
   (mongoose,sequelize,aws-sdk,validatorjs,lodash etc.)
@@ -81,11 +81,11 @@ await fookie.model({
     getAll: {
       role: ["everybody"],
     },
-    patch: {
+    update: {
       role: ["admin"],
       effect: ["log"],
     },
-    post: {
+    create: {
       role: ["admin"],
       effect: ["log"],
     },
@@ -104,7 +104,7 @@ await fookie.model({
 let res = await fookie.run({
   system: true,
   model: "message",
-  method: "post",
+  method: "create",
   body: {
     message: "hi",
   },
@@ -148,7 +148,7 @@ res = await fookie.run({
     text: "hi",
   },
   options:{
-    method:"post"
+    method:"create"
   }
 });
 console.log(res); // true or false
@@ -156,7 +156,7 @@ console.log(res); // true or false
 res = await fookie.run({
   system: true,
   model: "message",
-  method: "patch",
+  method: "update",
   query: {
     text: "hi",
   },

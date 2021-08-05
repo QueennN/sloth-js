@@ -106,7 +106,7 @@ class Fookie {
       let res = await this.run({
          system: true,
          model: "model",
-         method: "post",
+         method: "create",
          body: declaration
 
       })

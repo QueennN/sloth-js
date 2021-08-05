@@ -54,11 +54,11 @@ module.exports = {
          role: ["everybody"],
          filter:["filter"]
       },
-      patch: {
+      update: {
          modify:["set_mixin","fix_schema","database_modify"],
          role: ["admin"],
       },
-      post: {
+      create: {
          modify:["set_mixin","fix_schema","database_modify"],
          role: ["admin"],
       },

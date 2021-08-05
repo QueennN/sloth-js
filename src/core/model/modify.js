@@ -20,11 +20,11 @@ module.exports = {
         getAll: {
             role: ["admin"],
         },
-        patch: {
+        update: {
             role: ["admin"],
             effect: [],
         },
-        post: {
+        create: {
             role: ["admin"],
             effect: [],
         },

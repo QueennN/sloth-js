@@ -4,7 +4,7 @@ module.exports = {
       if (payload.options.version) {
          payload.query.version = ctx.package.version;
       }
-      if (payload.method == "post") {
+      if (payload.method == "create") {
          if (!ctx.lodash.has(payload.body, "version")) {
             payload.body.version = ctx.package.version;
          }else{

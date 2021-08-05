@@ -15,7 +15,7 @@ module.exports = function (ctx) { // kappa xd
                 return []
             });
 
-            model.methods.set("post", async function (payload, ctx) {
+            model.methods.set("create", async function (payload, ctx) {
                 return null
             });
 

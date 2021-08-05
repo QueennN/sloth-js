@@ -4,7 +4,7 @@ module.exports = {
       return //TODO Filter
 
       let type = "read"
-      if (["patch", "post"].includes(payload.options.method)) {
+      if (["update", "create"].includes(payload.options.method)) {
          type = "write"
       }
       let model = ctx.local.get("model", payload.model);

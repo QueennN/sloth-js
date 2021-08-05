@@ -33,7 +33,7 @@ module.exports = {
         getAll: {
             role: ["admin"],
         },
-        patch: {
+        update: {
             role: ["admin"],
         },
         post: {

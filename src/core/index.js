@@ -80,13 +80,13 @@ module.exports = async function (ctx) {
    //-----TRICKY SET
    const model = require("./model/model.js")
    model.methods = new Map()
-   model.methods.set("patch", () => { throw Error("CORE ERRORED") })
+   model.methods.set("update", () => { throw Error("CORE ERRORED") })
    model.methods.set("count", () => { throw Error("CORE ERRORED") })
    ctx.local.set("model", ctx.helpers.schemaFixer(ctx.lodash.cloneDeep(model)));
    await ctx.run({
       system: true,
       model: "model",
-      method: "patch",
+      method: "update",
       body: model
    })
    //-----TRICKY SET

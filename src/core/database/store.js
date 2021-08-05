@@ -48,13 +48,13 @@ module.exports = function (ctx) {
                 return _ctx.lodash.filter(_ctx.store.get(_payload.model), _payload.query)
             });
 
-            model.methods.set("post", async function (_payload, _ctx) {
+            model.methods.set("create", async function (_payload, _ctx) {
                 _payload.body.id = "mdb_" + _ctx.uuid.v4()
                 _ctx.store.get(_payload.model).push(_payload.body)
                 return _payload.body
             });
          
-            model.methods.set("patch", async function (_payload, _ctx) {
+            model.methods.set("update", async function (_payload, _ctx) {
                 let pool = _ctx.lodash.filter(_ctx.store.get(_payload.model), _payload.query)
                 pool = pool.map(i => _ctx.lodash.merge(i, _payload.body))
                 _ctx.store.set(_payload.model, pool)

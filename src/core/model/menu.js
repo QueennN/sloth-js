@@ -21,11 +21,11 @@ module.exports = {
          filter: [],
          role: ["everybody"],
       },
-      patch: {
+      update: {
          role: ["admin"],
          effect: [],
       },
-      post: {
+      create: {
          role: ["admin"],
          effect: [],
       },

@@ -8,7 +8,7 @@ Fookie JS is a lifecycle-based web application development method. It does most 
 -  Default health check
 -  Prometheus metric.
 -  Password & Email base authentication.
--  Auto generated methods for every model (post , delete , patch , count , model, get , getAll , test)
+-  Auto generated methods for every model (post , delete , update , count , model, get , getAll , test)
 -  Huge default library like Autocode (mongoose,sequelize,aws-sdk,validatorjs,lodash etc.)
 -  Auto validate request body
 -  Check required,onlyClient fields in request body
@@ -64,10 +64,10 @@ fookie.model({
       }
    },
    lifecycle:{
-      post:{
+      create:{
          role:["admin"]
       },
-      patch:{
+      update:{
          role:["admin"]
       },
       delete:{
@@ -97,7 +97,7 @@ fookie.rule("is_email",async function(payload,ctx){
 payload:{
 token:"asd.asd.asd",
 model:"user",
-method:"post",
+method:"create",
 body:{
    email:"mockmail@mocksite.com",
    password:"rawPassword"
@@ -119,7 +119,7 @@ fookie.modify("set_version",async function(payload,ctx){
 payload:{
 token:"asd.asd.asd",
 model:"user",
-method:"patch",
+method:"update",
 query:{ 
 },
 body:{
@@ -283,7 +283,7 @@ Orm schema.You can add some extra custom keys here.
             max:12, // only number
             equal:5, //
             includes:"asd", // for string and array
-            write:[], // Role array. for patch post defalut:[]
+            write:[], // Role array. for update post defalut:[]
             read:["nobody"],// Role array. Who can read this field ? Nobody.FookieJS trim this field when you want to read(get getALl etc.). defalut:[]
             input:"color",//this is useless for fookie backend but You can use on client-side
             },
@@ -301,7 +301,7 @@ payload = {
     token:"...",
     system:true //admin. YOu cant add this field http request :).
     user:{_id:"somemongooseID",email:"example@example.com"},
-    method:"patch",
+    method:"update",
     model:"user",
     attributes:["email"] // takes only the specified field 
     query:{
@@ -557,10 +557,10 @@ let start = async function () {
             },
             rule: ["has_page"],
          },
-         patch: {
+         update: {
             role: ["admin", "editor"],
          },
-         post: {
+         create: {
             role: ["admin", "editor"],
          },
          delete: {
@@ -644,10 +644,10 @@ const Fookie = require("fookie");
          getAll: {
             role: ["loggedin"],
          },
-         patch: {
+         update: {
             role: ["admin"],
          },
-         post: {
+         create: {
             role: ["admin"],
          },
          delete: {
@@ -701,7 +701,7 @@ await axios.post("http://localhost:80808",
             date:"07-04-2021",
             slug:"post-1"
         },
-        method:"post",
+        method:"create",
         model:"blog",
         options:{},
     }

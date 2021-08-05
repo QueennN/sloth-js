@@ -31,7 +31,7 @@ module.exports = async function (ctx) {
       let res = await ctx.run({
          system: true,
          model: "user",
-         method: "post",
+         method: "create",
          body: {
             email,
             password,
@@ -60,7 +60,7 @@ module.exports = async function (ctx) {
       let user = await ctx.run({
          system: true,
          model: "user",
-         method: "post",
+         method: "create",
          body: {
             email: "admin",
             password: "admin",
@@ -70,7 +70,7 @@ module.exports = async function (ctx) {
       await ctx.run({
          system: true,
          model: "admin",
-         method: "post",
+         method: "create",
          body: {
             user: user.data._id,
          },
