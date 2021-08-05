@@ -80,7 +80,6 @@ module.exports = async function (ctx) {
    //-----TRICKY SET
    const model = require("./model/model.js")
    model.methods = new Map()
-   model.methods.set("post", () => { throw Error("CORE ERRORED") })
    model.methods.set("patch", () => { throw Error("CORE ERRORED") })
    model.methods.set("count", () => { throw Error("CORE ERRORED") })
    ctx.local.set("model", ctx.helpers.schemaFixer(ctx.lodash.cloneDeep(model)));

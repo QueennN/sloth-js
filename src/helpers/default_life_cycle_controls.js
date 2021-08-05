@@ -11,7 +11,7 @@ module.exports = async function (ctx) {
          },
          preRule: {
             before: ["has_model", "has_method","valid_attributes"],
-            after: [],
+            after: ["valid_payload"],
          },
          filter: {
             before: [],
@@ -33,7 +33,7 @@ module.exports = async function (ctx) {
          },
          preRule: {
             before: ["has_model", "has_method","valid_attributes"],
-            after: [],
+            after: ["valid_payload"],
          },
          filter: {
             before: [],
@@ -55,7 +55,7 @@ module.exports = async function (ctx) {
          },
          preRule: {
             before: ["has_model", "has_method", "only_client", "has_body"],
-            after: [],
+            after: ["valid_payload"],
          },
          filter: {
             before: [],
@@ -67,6 +67,10 @@ module.exports = async function (ctx) {
          },
       },
       patch: {
+         preRule: {
+            before: ["has_model", "has_method", "has_body"],
+            after: ["valid_payload"],
+         },
          modify: {
             before: [],
             after: ["attributes","pk"],
@@ -75,10 +79,7 @@ module.exports = async function (ctx) {
             before: ["has_field", "check_type", "check_required", "field_control", "unique"],
             after: ["check_auth"],
          },
-         preRule: {
-            before: ["has_model", "has_method", "has_body"],
-            after: [],
-         },
+        
          filter: {
             before: [],
             after: [ "simplified"],
@@ -99,7 +100,7 @@ module.exports = async function (ctx) {
          },
          preRule: {
             before: ["has_model", "has_method"],
-            after: [],
+            after: ["valid_payload"],
          },
          filter: {
             before: [],
@@ -121,7 +122,7 @@ module.exports = async function (ctx) {
          },
          preRule: {
             before: ["has_model", "has_method"],
-            after: [],
+            after: ["valid_payload"],
          },
          filter: {
             before: [],
@@ -143,7 +144,7 @@ module.exports = async function (ctx) {
          },
          preRule: {
             before: ["has_model", "has_method", "need_method_in_options"],
-            after: [],
+            after: ["valid_payload"],
          },
          filter: {
             before: [],

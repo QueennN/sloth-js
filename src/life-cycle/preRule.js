@@ -4,7 +4,7 @@ module.exports = async function (payload, ctx) {
       if (!model.methods.has(payload.method)) {
          payload.response.warnings.push("Missing method")
          return false
-      }
+      } //TODO BUrası hata veriyor valid_payload return false
    } else {
       payload.response.warnings.push("Missing model")
       return false

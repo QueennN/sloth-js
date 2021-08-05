@@ -1,9 +1,11 @@
 module.exports = {
    name: "valid_payload",
    function: async function (payload, ctx) {
-      //TODO: bence olmayacaklar yerine olacakları kontrol etmek lazım. 
-      //eğer birisini payloada esktra alan eklerse client manüpüle debilir.
-      return !ctx.lodash.has(payload, "user") && !ctx.lodash.has(payload, "response" && !ctx.lodash.has(payload, "target"));
+      let avaible_keys = ["method", "model", "options", "system", "token", "body", "query", "attributes", "projection", "response"]
+      let keys = ctx.lodash.keys(payload)
+
+
+      return ctx.lodash.without(keys, ...avaible_keys).length === 0
    }
 }
 

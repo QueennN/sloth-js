@@ -53,13 +53,12 @@ module.exports = function (ctx) {
                 _ctx.store.get(_payload.model).push(_payload.body)
                 return _payload.body
             });
-
+         
             model.methods.set("patch", async function (_payload, _ctx) {
                 let pool = _ctx.lodash.filter(_ctx.store.get(_payload.model), _payload.query)
                 pool = pool.map(i => _ctx.lodash.merge(i, _payload.body))
                 _ctx.store.set(_payload.model, pool)
             });
-
             model.methods.set("delete", async function (_payload, _ctx) {
                 _ctx.store.set(_payload.model, _ctx.lodash.filter(_ctx.store.get(_payload.model), _payload.query))
             });
