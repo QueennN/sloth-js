@@ -25,7 +25,6 @@ module.exports = async function (ctx) {
    ctx.rule(require("./rule/check_type"));
    ctx.rule(require("./rule/check_auth"));
    ctx.rule(require("./rule/valid_attributes"));
-   ctx.rule(require("./rule/need_target"));
    ctx.rule(require("./rule/has_model"));
    ctx.rule(require("./rule/has_method"));
    ctx.rule(require("./rule/has_body"));
@@ -54,7 +53,6 @@ module.exports = async function (ctx) {
    //MODIFIES
    ctx.modify(require("./modify/password"));
    ctx.modify(require("./modify/set_default"));
-   ctx.modify(require("./modify/set_target")); // LA BU çok tartışmalı iyi düşün.
    ctx.modify(require("./modify/set_user"));
    ctx.modify(require("./modify/default_payload"));
    ctx.modify(require("./modify/increase"));
