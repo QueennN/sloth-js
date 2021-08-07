@@ -1,5 +1,6 @@
 module.exports = async function (payload, ctx) {
    let filters = await ctx.helpers.defaultArrayCalc(payload, "filter");
+   console.log(filters);
    if (filters.every((i) => ctx.local.has("filter",i))) {
     
       for (let i of filters) {  
