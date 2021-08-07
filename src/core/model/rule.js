@@ -15,21 +15,21 @@ module.exports = {
     },
     lifecycle: {
         get: {
-            role: ["admin"],
+            role: ["system"],
         },
         getAll: {
-            role: ["admin"],
+            role: ["system"],
         },
         update: {
-            role: ["admin"],
+            role: ["system"],
             effect: [],
         },
         create: {
-            role: ["admin"],
+            role: ["system"],
             effect: [],
         },
         delete: {
-            role: ["admin"],
+            role: ["system"],
             effect: [],
         },
         model: {

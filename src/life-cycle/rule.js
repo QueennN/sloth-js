@@ -12,7 +12,8 @@ module.exports = async function (payload, ctx) {
       }
 
       return true;
-   } else {
+   } else { 
       payload.response.warnings.push("invalid rule", rules);
+      return false
    }
 };

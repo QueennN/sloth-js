@@ -8,6 +8,7 @@ module.exports = async function (payload, ctx) {
          ctx.metrics.fookie_lifecycle_function_time.labels("filter",i).observe(Date.now()-start)
       }
    } else {
-      payload.response.warnings.push(`Missing filter`, ctx.lodash.remove(filters, r => ctx.local.has("filter",r)));
+      payload.response.status = 400
+      payload.response.warnings.push(`Missing filter: `+ ctx.lodash.remove(filters, r => ctx.local.has("filter",r)));
    }
 };

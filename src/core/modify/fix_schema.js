@@ -1,7 +1,7 @@
 module.exports = {
    name: "fix_schema",
    function: async function (payload, ctx) {
-      let methods = ["create", "get", "getAll", "update", "delete", "payload.body", "count", "test"];
+      let methods = ["create", "get", "getAll", "update", "delete", "count", "test"];
       methods = methods.concat(ctx.lodash.keys(payload.body.lifecycle))
       methods = ctx.lodash.uniq(methods)
 

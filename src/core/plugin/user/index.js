@@ -44,7 +44,7 @@ module.exports = async function (ctx) {
       let res = await ctx.run({
          system: true,
          method: "count",
-         model: "admin"
+         model: "system"
       })
 
       return res.data != 1
@@ -62,14 +62,14 @@ module.exports = async function (ctx) {
          model: "user",
          method: "create",
          body: {
-            email: "admin",
-            password: "admin",
-            type: "admin",
+            email: "system",
+            password: "system",
+            type: "system",
          },
       });
       await ctx.run({
          system: true,
-         model: "admin",
+         model: "system",
          method: "create",
          body: {
             user: user.data._id,

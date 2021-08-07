@@ -41,11 +41,11 @@ module.exports = function (ctx) {
         },
         modify: async function (model, ctx) {
             model.methods.set("get", async function (_payload, _ctx) {
-                return _ctx.lodash.find(_ctx.store.get(_payload.model), _payload.query)
+                return _ctx.lodash.pick(_ctx.lodash.find(_ctx.store.get(_payload.model), _payload.query),_payload.attributes)
             });
 
             model.methods.set("getAll", async function (_payload, _ctx) {
-                return _ctx.lodash.filter(_ctx.store.get(_payload.model), _payload.query)
+                return _ctx.lodash.filter(_ctx.store.get(_payload.model), _payload.query).map(i=> _ctx.lodash.pick(i,_payload.attributes))
             });
 
             model.methods.set("create", async function (_payload, _ctx) {

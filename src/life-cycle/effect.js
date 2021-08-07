@@ -5,6 +5,7 @@ module.exports = async function (payload, ctx) {
          ctx.local.get("effect",eff)(payload, ctx);
       });
    } else {
+      payload.response.status = 400
       throw Error("Missing Effect");
    }
 };

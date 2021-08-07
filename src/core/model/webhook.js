@@ -29,19 +29,19 @@ module.exports = {
     },
     lifecycle: {
         get: {
-            role: ["admin"],
+            role: ["system"],
         },
         getAll: {
-            role: ["admin"],
+            role: ["system"],
         },
         update: {
-            role: ["admin"],
+            role: ["system"],
         },
         create: {
-            role: ["admin"],
+            role: ["system"],
         },
         delete: {
-            role: ["admin"],
+            role: ["system"],
         },
         model: {
             role: ["everybody"],

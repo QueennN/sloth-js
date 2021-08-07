@@ -22,21 +22,21 @@ module.exports = {
          role: ["everybody"],
       },
       update: {
-         role: ["admin"],
+         role: ["system"],
          effect: [],
       },
       create: {
-         role: ["admin"],
+         role: ["system"],
          effect: [],
       },
       delete: {
-         role: ["admin"],
+         role: ["system"],
       },
       model: {
          role: [],
       },
       count: {
-         role: ["admin"],
+         role: ["system"],
       },
    },
 };

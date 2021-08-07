@@ -2,7 +2,8 @@ module.exports = {
    name: "database_modify",
    function: async function (payload, ctx) {
       payload.body.methods = new Map();
-      ctx.local.get("database", payload.body.database).modify(payload.body, ctx)
+      await ctx.local.get("database", payload.body.database).modify(payload.body, ctx)
+
       payload.body.methods.set("test", async function (_payload, _ctx) {
          _payload.method = _payload.options.method + '';
          for (let b of _ctx.store.get("befores")) {
@@ -15,8 +16,7 @@ module.exports = {
             }
          }
          return false;
-      });
-      ctx.local.set("model", payload.body) //THINK tricky yöntem fakat bilmiyorum dogrumu ??? >£#$>#£$ª¶£#
+      });      
    }
 }
 

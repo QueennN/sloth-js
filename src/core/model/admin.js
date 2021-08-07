@@ -1,5 +1,5 @@
 module.exports = {
-   name: "admin",
+   name: "system",
    database:"mongodb",
    display: "_id",
    schema: {
@@ -9,19 +9,19 @@ module.exports = {
    },
    lifecycle: {
       get: {
-         role: ["admin"],
+         role: ["system"],
       },
       getAll: {
-         role: ["admin"],
+         role: ["system"],
       },
       update: {
-         role: ["admin"],
+         role: ["system"],
       },
       update: {
-         role: ["admin"],
+         role: ["system"],
       },
       delete: {
-         role: ["admin"],
+         role: ["system"],
          rule:["is_last_admin"]
       },
       model: {

@@ -3,14 +3,14 @@ module.exports = async function (ctx) {
       get: {
          modify: {
             before: [],
-            after: ["attributes","pk"],
+            after: ["attributes", "pk"],
          },
          rule: {
             before: [],
             after: ["check_auth"],
          },
          preRule: {
-            before: ["has_model", "has_method","valid_attributes"],
+            before: ["has_model", "has_method", "valid_attributes"],
             after: ["valid_payload"],
          },
          filter: {
@@ -25,19 +25,19 @@ module.exports = async function (ctx) {
       getAll: {
          modify: {
             before: [],
-            after: ["attributes","pk"],
+            after: ["attributes", "pk"],
          },
          rule: {
             before: [],
             after: ["check_auth"],
          },
          preRule: {
-            before: ["has_model", "has_method","valid_attributes"],
+            before: ["has_model", "has_method", "valid_attributes"],
             after: ["valid_payload"],
          },
          filter: {
             before: [],
-            after: [ "simplified"],
+            after: ["simplified"],
          },
          effect: {
             before: [],
@@ -47,10 +47,10 @@ module.exports = async function (ctx) {
       create: {
          modify: {
             before: ["set_default", "increase"],
-            after: ["attributes","version","pk"],
+            after: ["attributes", "version", "pk"],
          },
          rule: {
-            before: [ "check_required","has_field", "check_type" ,"field_control", "unique"],
+            before: ["check_required", "has_field", "check_type", "field_control", "unique"],
             after: ["check_auth"],
          },
          preRule: {
@@ -69,20 +69,19 @@ module.exports = async function (ctx) {
       update: {
          preRule: {
             before: ["has_model", "has_method", "has_body"],
-            after: ["valid_payload"],
+            after: ["valid_payload", "need_target"],
          },
          modify: {
             before: [],
-            after: ["attributes","pk"],
+            after: ["attributes", "pk"],
          },
          rule: {
-            before: ["has_field", "check_type", "check_required", "field_control", "unique"],
+            before: ["has_field", "check_type", "check_required", "field_control"], //TODO UNIQUE
             after: ["check_auth"],
          },
-        
          filter: {
             before: [],
-            after: [ "simplified"],
+            after: ["simplified"],
          },
          effect: {
             before: [],
@@ -139,7 +138,7 @@ module.exports = async function (ctx) {
             after: [],
          },
          rule: {
-            before: ["has_fields",],
+            before: ["has_fields"],
             after: ["check_auth"],
          },
          preRule: {

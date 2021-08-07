@@ -82,21 +82,21 @@ await fookie.model({
       role: ["everybody"],
     },
     update: {
-      role: ["admin"],
+      role: ["system"],
       effect: ["log"],
     },
     create: {
-      role: ["admin"],
+      role: ["system"],
       effect: ["log"],
     },
     delete: {
-      role: ["admin"],
+      role: ["system"],
     },
     model: {
       role: ["everybody"],
     },
     count: {
-      role: ["admin"],
+      role: ["system"],
     },
   },
 });

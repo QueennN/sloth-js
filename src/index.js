@@ -78,27 +78,27 @@ class Fookie {
       this.use(core);
    }
 
-   mixin(declaration) {
+   async mixin(declaration) {
       this.local.set("mixin", declaration)
    }
 
-   rule(declaration) {
+   async rule(declaration) {
       this.local.set("rule", declaration)
    }
 
-   role(declaration) {
+   async role(declaration) {
       this.local.set("role", declaration)
    }
 
-   filter(declaration) {
+   async filter(declaration) {
       this.local.set("filter", declaration)
    }
 
-   database(declaration) {
+   async database(declaration) {
       this.local.set("database", declaration)
    }
 
-   modify(declaration) {
+   async modify(declaration) {
       this.local.set("modify", declaration)
    }
 

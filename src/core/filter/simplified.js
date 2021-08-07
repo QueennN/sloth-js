@@ -7,7 +7,6 @@ module.exports = {
          } else {
             payload.response.data = ctx.lodash.values(payload.response.data);
          }
-
       }
    }
 }

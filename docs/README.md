@@ -65,10 +65,10 @@ fookie.model({
    },
    lifecycle:{
       create:{
-         role:["admin"]
+         role:["system"]
       },
       update:{
-         role:["admin"]
+         role:["system"]
       },
       delete:{
          role:["nobody"]
@@ -152,7 +152,7 @@ fookie.model({
    },
    lifecycle:{
       getAll:{
-         role:["admin","everybody"],
+         role:["system","everybody"],
          reject:{
             admin:["pagination"]
          }
@@ -166,11 +166,11 @@ fookie.modify("pagination",async function(payload,ctx){
 })
 
 //is user a admin?
-fookie.role("admin",async function(payload,ctx){
+fookie.role("system",async function(payload,ctx){
    let res = await ctx.run({
       system:true,
       method:"count",
-      model:"admin",
+      model:"system",
       query:{
          _id:payload.user._id
       }
@@ -431,8 +431,8 @@ fookie.run({
    method:"login",
    model:"user",
    body:{
-      email:"admin",
-      password:"admin"
+      email:"system",
+      password:"system"
    }
 })
 ```
@@ -542,8 +542,8 @@ let start = async function () {
             required: true,
             input: "date",
             default: false,
-            read: ["admin"],
-            write: ["admin"],
+            read: ["system"],
+            write: ["system"],
          },
       },
       lifecycle: {
@@ -551,20 +551,20 @@ let start = async function () {
             role: ["everybody"],
          },
          getAll: {
-            role: ["admin", "everybody"],
+            role: ["system", "everybody"],
             reject: {
                admin: ["paginate", "published"],
             },
             rule: ["has_page"],
          },
          update: {
-            role: ["admin", "editor"],
+            role: ["system", "editor"],
          },
          create: {
-            role: ["admin", "editor"],
+            role: ["system", "editor"],
          },
          delete: {
-            role: ["admin"],
+            role: ["system"],
          },
          schema: {
             role: ["everybody"],
@@ -645,13 +645,13 @@ const Fookie = require("fookie");
             role: ["loggedin"],
          },
          update: {
-            role: ["admin"],
+            role: ["system"],
          },
          create: {
-            role: ["admin"],
+            role: ["system"],
          },
          delete: {
-            role: ["admin"],
+            role: ["system"],
          },
          model: {
             role: ["everybody"],
@@ -667,8 +667,8 @@ const Fookie = require("fookie");
          model: "user",
          method: "login",
          body: {
-            email: "admin",
-            password: "admin",
+            email: "system",
+            password: "system",
          },
       });
       let token = res.data; // You are admin now. (email:admin,password:admin default admin)
@@ -717,7 +717,7 @@ await axios.post("http://localhost:80808",
     }
 )
 
-await axios.post("http://localhost:80808",
+await axios.post("http://localhost:2626",
     {
         method:"getAll",
         model:"model",
@@ -726,13 +726,11 @@ await axios.post("http://localhost:80808",
             deep:true // Populate all fields
         },
         query:{
-
                 id:{
                     $gt:4,
                     $lt:100,
                 }
-
-        }
+                        }
     }
 )
 

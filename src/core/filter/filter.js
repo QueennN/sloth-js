@@ -16,7 +16,6 @@ module.exports = {
             show = show && (await ctx.local.get("role", role).function(payload, ctx));
          }
          if (!show) {
-            console.log(payload.response);
             delete payload.response.data.schema[field];
          }
       }

@@ -3,4 +3,4 @@ const Fookie = require("./src");
    const fookie = new Fookie();
    await fookie.listen(2626);
 })
-();
+   ();

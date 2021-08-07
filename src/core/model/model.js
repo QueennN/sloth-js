@@ -1,10 +1,10 @@
 module.exports = {
    name: "model",
-   database:"store",
+   database: "store",
    display: "name",
    schema: {
       name: {
-        // unique:true,
+         unique: true,
          input: "text",
          required: true,
          type: "string",
@@ -29,46 +29,46 @@ module.exports = {
          input: "json",
          required: true,
          type: "object",
-         read:[],
-         write:["everybody"]
+         read: [],
+         write: ["everybody"]
       },
-      methods:{
-         input:"json",
-         type:"object",
-         write:["nobody"]
+      methods: {
+         input: "json",
+         type: "object",
+         write: ["nobody"]
       },
-      mixin:{
+      mixin: {
          input: "json",
          type: "array",
       },
-      version:{
-         type:"string"
+      version: {
+         type: "string"
       }
    },
    lifecycle: {
       get: {
          role: ["everybody"],
-         filter:["filter"]
+         filter: ["filter"]
       },
       getAll: {
          role: ["everybody"],
-         filter:["filter"]
+         filter: ["filter"]
       },
       update: {
-         modify:["set_mixin","fix_schema","database_modify"],
-         role: ["admin"],
+         modify: [],
+         role: ["system"],
       },
       create: {
-         modify:["set_mixin","fix_schema","database_modify"],
-         role: ["admin"],
+         modify: ["set_mixin", "fix_schema", "database_modify"],
+         role: ["system"],
       },
       delete: {
-         role: ["admin"],
+         role: ["system"],
       },
       count: {
-         role: ["admin"],
+         role: ["system"],
       },
    },
-   methods:{},
-   mixin:["default_mixin"],
+   methods: {},
+   mixin: ["default_mixin"],
 };
