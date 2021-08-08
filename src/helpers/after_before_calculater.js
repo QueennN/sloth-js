@@ -8,7 +8,6 @@ module.exports = function (ctx) {
          a3 = ctx.store.get("default_life_cycle_controls")[payload.method][mapName].after;
       }
 
-      console.log(ctx.local.get("model", payload.model).lifecycle[payload.method]);
       if (ctx.local.get("model", payload.model).lifecycle[payload.method]) {
          a2 = ctx.local.get("model", payload.model).lifecycle[payload.method][mapName];
       }

@@ -93,6 +93,7 @@ module.exports = async function (ctx) {
    let mdl = ctx.local.get("model","model2")
    mdl.name = "model"
    ctx.local.set("model",mdl)
+   ctx.local.delete("model","model2")
    //-----TRICKY SET
 
    //MODEL

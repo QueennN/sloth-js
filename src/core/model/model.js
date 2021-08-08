@@ -55,7 +55,7 @@ module.exports = {
          filter: ["filter"]
       },
       update: {
-         modify: [],
+         modify: ["database_modify"],
          role: ["system"],
       },
       create: {

@@ -138,7 +138,7 @@ module.exports = async function (ctx) {
             after: [],
          },
          rule: {
-            before: ["has_fields"],
+            before: ["has_field"],
             after: ["check_auth"],
          },
          preRule: {
