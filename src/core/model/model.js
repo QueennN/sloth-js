@@ -42,7 +42,7 @@ module.exports = {
          type: "array",
       },
       version: {
-         type: "string"
+         type: "string",
       }
    },
    lifecycle: {

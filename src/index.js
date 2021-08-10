@@ -122,7 +122,8 @@ class Fookie {
       if (await preRule(payload, this)) {
          await modify(payload, this);
          if (await rule(payload, this)) {
-            payload.response.data = await this.local.get("model", payload.model).methods.get(payload.method)(payload, this);
+            let res =  await this.local.get("model", payload.model).methods.get(payload.method)(payload, this)
+            payload.response.data = this.lodash.cloneDeep(res)
             if (payload.response.status == 200) {
                await filter(payload, this);
                effect(payload, this);
