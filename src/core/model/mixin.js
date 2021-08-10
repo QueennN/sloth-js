@@ -4,13 +4,13 @@ module.exports = {
     display: "name",
     schema: {
         name: {
-            type:"string",
-            required:true,
-            unique:true,
+            type: "string",
+            required: true,
+            unique: true,
         },
         value: {
-            type:"object",
-            required:true,
+            type: "object",
+            required: true,
         },
     },
     lifecycle: {

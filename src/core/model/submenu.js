@@ -1,6 +1,6 @@
 module.exports = {
    name: "submenu",
-   database:"mongodb",
+   database:"store",
    display: "_id",
    schema: {
       model: {

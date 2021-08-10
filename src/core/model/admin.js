@@ -1,6 +1,6 @@
 module.exports = {
    name: "system",
-   database:"mongodb",
+   database:"store",
    display: "_id",
    schema: {
       user: {

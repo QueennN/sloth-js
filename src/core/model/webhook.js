@@ -1,6 +1,6 @@
 module.exports = {
     name: "webhook",
-    database:"mongodb",
+    database:"store",
     display: "name",
     schema: {
         name: {
