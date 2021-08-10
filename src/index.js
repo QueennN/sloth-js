@@ -74,8 +74,6 @@ class Fookie {
          await this.run(payload, this);
          res.status(payload.response.status).json(payload.response.data);
       });
-
-      this.use(core);
    }
 
    async mixin(declaration) {
@@ -158,6 +156,9 @@ class Fookie {
       cb(this);
    }
 
+   async core() {
+      await this.use(core);
+   }
    listen(port) {
       this.app.listen(port, () => {
          console.log(`FOOKIE ${port} is listening...`);
