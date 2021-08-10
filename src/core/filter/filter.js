@@ -1,8 +1,6 @@
 module.exports = {
    name: "filter",
    function: async function (payload, ctx) {
-      return //TODO Filter
-
       let type = "read"
       if (["update", "create"].includes(payload.options.method)) {
          type = "write"
@@ -16,7 +14,7 @@ module.exports = {
             show = show && (await ctx.local.get("role", role).function(payload, ctx));
          }
          if (!show) {
-            delete payload.response.data.schema[field];
+            payload.response.data = ctx.lodash.omit(payload.response.data, field)
          }
       }
 
