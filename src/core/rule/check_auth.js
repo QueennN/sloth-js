@@ -1,6 +1,7 @@
 module.exports = {
    name: "check_auth",
    function: async function (payload, ctx) {
+
       let model = ctx.local.get("model", payload.model)
       let roles = [].concat(ctx.helpers.defaultArrayCalc(payload, "role"))
 

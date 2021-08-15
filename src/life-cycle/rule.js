@@ -13,7 +13,8 @@ module.exports = async function (payload, ctx) {
 
       return true;
    } else { 
-      payload.response.warnings.push("invalid rule", rules);
+      payload.response.warnings.push("Missing", rules);
+      throw Error("Missing rule")
       return false
    }
 };

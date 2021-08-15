@@ -51,7 +51,7 @@ module.exports = async function (ctx) {
          },
          rule: {
             before: ["check_required", "has_field", "check_type", "field_control", "unique"],
-            after: ["check_auth"],
+            after: ["check_auth","has_entity"],
          },
          preRule: {
             before: ["has_model", "has_method", "only_client", "has_body"],
@@ -77,7 +77,7 @@ module.exports = async function (ctx) {
          },
          rule: {
             before: ["has_field", "check_type", "check_required", "field_control"], //TODO UNIQUE
-            after: ["check_auth"],
+            after: ["check_auth","has_entity"],
          },
          filter: {
             before: [],

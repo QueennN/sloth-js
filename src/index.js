@@ -92,6 +92,10 @@ class Fookie {
       this.local.set("filter", declaration)
    }
 
+   async lifecycle(declaration) {
+      this.local.set("lifecycle", declaration)
+   }
+
    async database(declaration) {
       this.local.set("database", declaration)
    }

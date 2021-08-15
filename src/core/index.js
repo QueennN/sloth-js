@@ -34,6 +34,7 @@ module.exports = async function (ctx) {
    await ctx.rule(require("./rule/unique"));
    await ctx.rule(require("./rule/has_database"));
    await ctx.rule(require("./rule/need_target"));
+   await ctx.rule(require("./rule/has_entity"));
 
    //ROLES
    await ctx.role(require("./role/logged_in"));
@@ -51,7 +52,10 @@ module.exports = async function (ctx) {
    await ctx.filter(require("./filter/filter"));
    await ctx.filter(require("./filter/simplified"));
 
+
+
    //MODIFIES
+   await ctx.modify(require("./modify/merge_lifecycle"));
    await ctx.modify(require("./modify/password"));
    await ctx.modify(require("./modify/set_default"));
    await ctx.modify(require("./modify/set_user"));
@@ -76,12 +80,15 @@ module.exports = async function (ctx) {
    await ctx.use(require('./database/postgre'))
    await ctx.use(require('./database/nulldb'))
 
+   //LIFECYCLES``
+   await ctx.lifecycle(require("./lifecycle/backend.js"))
+
    //-----TRICKY SET
    const model = require("./model/model.js")
    model.methods = new Map()
-   model.methods.set("update", async function(_payload, _ctx)  { _ctx.local.set("model", _payload.body) })
-   model.methods.set("create", async function(_payload, _ctx)  { _ctx.local.set("model", _payload.body) })
-   model.methods.set("count", async function(_payload, _ctx) { return 0})
+   model.methods.set("update", async function (_payload, _ctx) { _ctx.local.set("model", _payload.body) })
+   model.methods.set("create", async function (_payload, _ctx) { _ctx.local.set("model", _payload.body) })
+   model.methods.set("count", async function (_payload, _ctx) { return 0 })
    ctx.local.set("model", ctx.helpers.schemaFixer(ctx.lodash.cloneDeep(model)));
    model.name = "model2"
    await ctx.run({
@@ -90,10 +97,10 @@ module.exports = async function (ctx) {
       method: "create",
       body: model
    })
-   let mdl = ctx.local.get("model","model2")
+   let mdl = ctx.local.get("model", "model2")
    mdl.name = "model"
-   ctx.local.set("model",mdl)
-   ctx.local.delete("model","model2")
+   ctx.local.set("model", mdl)
+   ctx.local.delete("model", "model2")
    //-----TRICKY SET
 
    //MODEL
@@ -101,11 +108,16 @@ module.exports = async function (ctx) {
    await ctx.model(require("./model/submenu.js"));
    await ctx.model(require("./model/admin.js"));
    await ctx.model(require("./model/webhook.js"));
-   await ctx.model(require('./model/role'))
-   await ctx.model(require('./model/rule'))
-   await ctx.model(require('./model/modify'))
-   await ctx.model(require('./model/effect'))
-   await ctx.model(require('./model/filter'))
+   await ctx.model(require('./model/role.js'))
+   await ctx.model(require('./model/rule.js'))
+   await ctx.model(require('./model/modify.js'))
+   await ctx.model(require('./model/effect.js'))
+   await ctx.model(require('./model/filter.js'))
+   await ctx.model(require('./model/lifecycle.js'))
+
+
+
+
 
    // PLUGINS
    //ctx.use(require("./defaults/plugin/file_storage")) USE S3 NOT multer xd

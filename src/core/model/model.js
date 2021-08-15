@@ -60,7 +60,7 @@ module.exports = {
          role: ["system"],
       },
       create: {
-         modify: ["set_mixin", "fix_schema", "database_modify"],
+         modify: ["set_mixin", "fix_schema","merge_lifecycle", "database_modify"],
          role: ["system"],
       },
       delete: {

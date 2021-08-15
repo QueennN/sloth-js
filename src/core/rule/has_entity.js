@@ -5,13 +5,13 @@ module.exports = {
       let keys = ctx.lodash.keys(payload.body);
       for (let key of keys) {
          if (model.schema[key].relation) {
-            let res = await tx.run({
+            let res = await ctx.run({
                system: true,
                model: model.schema[key].relation,
+               method:"count",
                query: {
-                  [model.database.pk]: payload.body[key]
+                  pk: payload.body[key]
                },
-               key: payload.body[key]
             })
             if (!res) return false
          }
