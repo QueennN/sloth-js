@@ -30,13 +30,11 @@ module.exports = {
          input: "json",
          required: true,
          type: "object",
-         read: [],
-         write: ["everybody"]
       },
       methods: {
          input: "json",
          type: "object",
-         write: ["nobody"],
+         write: ["system"],
          default:{}
       },
       mixin: {
