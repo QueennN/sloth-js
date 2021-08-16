@@ -5,6 +5,6 @@ module.exports = {
             version: {
                 type: "string"
             }
-        }
+        },
     }
 }

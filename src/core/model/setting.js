@@ -29,8 +29,5 @@ module.exports = {
         delete: {
             role: ["system"],
         },
-        model: {
-            role: ["everybody"],
-        },
     },
 };
