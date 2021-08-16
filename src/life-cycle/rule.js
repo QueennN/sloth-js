@@ -15,6 +15,5 @@ module.exports = async function (payload, ctx) {
    } else { 
       payload.response.warnings.push("Missing", rules);
       throw Error("Missing rule")
-      return false
    }
 };
