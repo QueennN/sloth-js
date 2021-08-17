@@ -40,4 +40,5 @@ module.exports = {
          role: ["system"],
       },
    },
+   mixin:[]
 };

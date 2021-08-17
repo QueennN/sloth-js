@@ -1,5 +1,5 @@
 module.exports = {
-   name: "system",
+   name: "admin",
    database:"store",
    display: "_id",
    schema: {
@@ -28,4 +28,5 @@ module.exports = {
          role: ["everybody"],
       },
    },
+   mixin:[],
 };

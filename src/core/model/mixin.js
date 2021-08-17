@@ -35,4 +35,5 @@ module.exports = {
             role: ["everybody"],
         },
     },
+    mixin:[]
 };

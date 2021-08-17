@@ -4,7 +4,8 @@ module.exports = {
       let model = ctx.local.get("model", payload.model)
       let defaults = ctx.lodash.mapValues(model.schema, o => o.default)
       defaults = ctx.lodash.pickBy(defaults, v => !ctx.lodash.isUndefined(v))
-      payload.body = ctx.lodash.defaults(payload.body, defaults)
+      payload.body = ctx.lodash.defaults(payload.body, defaults)    
+ 
    }
 }
 

@@ -14,7 +14,6 @@ module.exports = async function (ctx) {
    await ctx.use(require("../helpers/local.js"))
    await ctx.use(require("../helpers/after_before_calculater"));
    await ctx.use(require("./plugin/health_check"));
-   await ctx.use(require("../helpers/default_life_cycle_controls"));
    await ctx.use(require("./plugin/metric/index"));
 
    // RULES
@@ -71,6 +70,8 @@ module.exports = async function (ctx) {
 
    // MIXIN
    await ctx.mixin(require("./mixin/default_mixin"))
+   await ctx.mixin(require("./mixin/after"))
+   await ctx.mixin(require("./mixin/before"))
 
    //DATABASES
    await ctx.use(require('./database/store'))
@@ -79,9 +80,6 @@ module.exports = async function (ctx) {
    await ctx.use(require('./database/mongodb'))
    await ctx.use(require('./database/postgre'))
    await ctx.use(require('./database/nulldb'))
-
-   //LIFECYCLES``
-   await ctx.lifecycle(require("./lifecycle/backend.js"))
 
    //-----TRICKY SET
    const model = require("./model/model.js")

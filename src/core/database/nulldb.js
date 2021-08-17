@@ -27,6 +27,5 @@ module.exports = function (ctx) { // kappa xd
                 return 1
             });
         },
-        mixin: [],
     })
 }
