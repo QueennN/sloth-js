@@ -84,6 +84,10 @@ class Fookie {
       this.local.set("rule", declaration)
    }
 
+   async setting(declaration) {
+      this.local.set("setting", declaration)
+   }
+
    async role(declaration) {
       this.local.set("role", declaration)
    }
@@ -126,7 +130,7 @@ class Fookie {
       if (await preRule(payload, this)) {
          await modify(payload, this);
          if (await rule(payload, this)) {
-            let res =  await this.local.get("model", payload.model).methods.get(payload.method)(payload, this)
+            let res = await this.local.get("model", payload.model).methods.get(payload.method)(payload, this)
             payload.response.data = this.lodash.cloneDeep(res)
             if (payload.response.status == 200) {
                await filter(payload, this);
@@ -161,7 +165,7 @@ class Fookie {
       await cb(this);
    }
 
-   async core() { 
+   async core() {
       await this.use(core);
    }
    listen(port) {

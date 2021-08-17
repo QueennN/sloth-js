@@ -1,8 +1,7 @@
 module.exports = {
     name: "metric",
     function: async (payload, ctx) => {
-        return
-        ctx.metrics.response_time.labels(payload.model || "model", payload.method || "get").observe(Date.now() - ctx.metrics.start)
+        payload.metrics.response_time = Date.now() - payload.metrics.start
     }
 }
 

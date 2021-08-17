@@ -1,7 +1,19 @@
 module.exports = {
    name: "valid_payload",
    function: async function (payload, ctx) {
-      let avaible_keys = ["method", "model", "options", "system", "token", "body", "query", "attributes", "projection", "response"]
+      let avaible_keys = [
+         "method",
+         "model",
+         "options",
+         "system",
+         "token",
+         "body",
+         "query",
+         "attributes",
+         "projection",
+         "response",
+         "metrics",
+      ]
       let keys = ctx.lodash.keys(payload)
 
 

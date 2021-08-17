@@ -4,7 +4,10 @@ module.exports = async function (payload, ctx) {
       for (let m of arr) {
          let start = Date.now()
          await ctx.local.get("modify", m).function(payload, ctx);
-         ctx.metrics.fookie_lifecycle_function_time.labels("modify", m).observe(Date.now() - start)
+         payload.metrics.lifecycle_response_times.push({
+            name: m,
+            time: Date.now() - start
+         })
       }
    } else {
       payload.response.status = 400

@@ -1,18 +1,20 @@
 module.exports = async function (payload, ctx) {
-   let rules = await ctx.helpers.defaultArrayCalc(payload, "rule");
-   if (rules.every((i) => ctx.local.has("rule",i))) {
-      for (let rule of rules) {
+   let arr = await ctx.helpers.defaultArrayCalc(payload, "rule");
+   if (arr.every((i) => ctx.local.has("rule", i))) {
+      for (let i of arr) {
          let start = Date.now()
-         let res = await ctx.local.get("rule",rule).function(payload, ctx);
-         ctx.metrics.fookie_lifecycle_function_time.labels("filter",rule).observe(Date.now()-start)
+         let res = await ctx.local.get("rule", i).function(payload, ctx);
+         payload.metrics.lifecycle_response_times.push({
+            name: i,
+            time: Date.now() - start
+         })
          if (res == false) {
-            payload.response.warnings.push(`false rule: ${rule}`);
+            payload.response.warnings.push(`false rule: ${i}`);
             return false;
          }
       }
-
       return true;
-   } else { 
+   } else {
       payload.response.warnings.push("Missing", rules);
       throw Error("Missing rule")
    }

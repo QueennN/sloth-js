@@ -5,7 +5,12 @@ module.exports = {
          options: {},
          body: {},
          query: {},
-         projection: {}
+         projection: {},
+         metrics: {
+            lifecycle_response_times: [],
+            response_time: 0,
+            start: Date.now(),
+         },
       })
       payload.response = {
          data: undefined,
