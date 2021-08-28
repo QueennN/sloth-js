@@ -14,7 +14,7 @@ const moment = require("moment");
 const validator = require("validate.js");
 const CryptoJS = require("crypto-js");
 const pckg = require("../package.json");
-const uuid = require('uuid');
+
 
 class Fookie {
    constructor() {
@@ -27,7 +27,6 @@ class Fookie {
       this.cryptojs = CryptoJS;
       this.package = pckg;
       this.deepMerge = deepMerge
-      this.uuid = uuid
       this.helpers = {
          rule,
          effect,
@@ -112,11 +111,6 @@ class Fookie {
          func(this);
       }, time);
       this.routines.set(name, routine);
-   }
-
-   async connect(databaseName, config) {
-      let database = this.local.get("database", databaseName)
-      await database.connect(config)
    }
 
    async use(cb) {

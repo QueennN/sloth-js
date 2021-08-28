@@ -49,14 +49,13 @@ module.exports = function (ctx) {
             });
 
             model.methods.set("create", async function (_payload, _ctx) {
-                _payload.body.id = "mdb_" + _ctx.uuid.v4()
                 _ctx.store.get(_payload.model).push(_payload.body)
                 return _payload.body
             });
 
             model.methods.set("update", async function (_payload, _ctx) {
                 let pool = _ctx.store.get(_payload.model)
-                let ids = _ctx.lodash.filter(pool, _payload.query).map(i => i.id)
+                let ids = _ctx.lodash.filter(pool, _payload.query).map(i => i.name)
 
                 for (let item of pool) {
                     for (key in _payload.body) {
