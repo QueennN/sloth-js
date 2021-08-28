@@ -1,10 +1,8 @@
 var assert = require('assert');
 const lodash = require("lodash")
-describe('Fookie Model', function () {
+const Fookie = require("../src/index")
+describe('Fookie Model', async function () {
     it('Model required and crud operations', async function () {
-        const Fookie = require("../src/index")
-        const fookie = new Fookie()
-        await fookie.core()
         let res = await fookie.run({
             system: true,
             model: "model",

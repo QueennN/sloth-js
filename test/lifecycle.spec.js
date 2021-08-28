@@ -1,26 +1,14 @@
 var assert = require('assert');
 const lodash = require("lodash")
-describe('Lifecycle functions', function () {
-    it('Lifecyc', async function () {
-        const Fookie = require("../src/index")
-        const fookie = new Fookie()
-
-        let res = await fookie.run({
-            system: true,
-            model: "model",
-            method: "get",
-            query: {
-                name: "model"
-            }
-        })
-        assert.equal(lodash(res.data.methods.has("create")), true)
-        assert.equal(lodash(res.data.methods.has("get")), true)
-        assert.equal(lodash(res.data.methods.has("getAll")), true)
-        assert.equal(lodash(res.data.methods.has("count")), true)
-        assert.equal(lodash(res.data.methods.has("test")), true)
-        assert.equal(lodash(res.data.methods.has("update")), true)
-        assert.equal(lodash(res.data.methods.has("delete")), true)
-        assert.equal(res.status, 200)
-        assert.equal(res.data.name, "model")
+const Fookie = require("../src/index")
+describe('Lifecycle functions',async function () {
+    it('Lifecycle models', async function () {
+        assert.equal(fookie.local.has("model","rule"), true)
+        assert.equal(fookie.local.has("model","role"), true)
+        assert.equal(fookie.local.has("model","modify"), true)
+        assert.equal(fookie.local.has("model","effect"), true)
+        assert.equal(fookie.local.has("model","mixin"), true)
+        assert.equal(fookie.local.has("model","database"), true)
+        assert.equal(fookie.local.has("model","filter"), true)
     });
 });
