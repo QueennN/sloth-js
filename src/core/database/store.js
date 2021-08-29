@@ -5,7 +5,7 @@ module.exports = function (ctx) {
         types: {
             any: {
                 type: null,
-                controller: () => true
+                controller: function () { return true }
             },
             id: {
                 type: String,

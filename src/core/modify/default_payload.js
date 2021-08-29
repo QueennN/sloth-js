@@ -15,7 +15,7 @@ module.exports = {
       payload.response = {
          data: undefined,
          warnings: [],
-         status: 200,
+         status: true,
       }
    }
 }

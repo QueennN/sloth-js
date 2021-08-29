@@ -12,7 +12,7 @@ module.exports = async function (payload, ctx) {
          })
       }
    } else {
-      payload.response.status = 400
+      payload.response.status = false
       payload.response.warnings.push(`Missing filter: ` + ctx.lodash.remove(filters, r => ctx.local.has("filter", r)));
    }
 };

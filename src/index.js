@@ -88,22 +88,22 @@ class Fookie {
          await modify(payload, this);
          if (await rule(payload, this)) {
             let res = await this.local.get("model", payload.model).methods.get(payload.method)(payload, this)
-            payload.response.data = this.lodash.assign({}, res)
-            if (payload.response.status == 200) {
+            payload.response.data = res
+            if (payload.response.status == true) {
                await filter(payload, this);
                effect(payload, this);
             }
          } else {
-            payload.response.status = 400;
+            payload.response.status = false;
          }
 
       } else {
-         payload.response.status = 400;
+         payload.response.status = false;
       }
       for await (let b of this.store.get("afters")) {
          await this.local.get("effect", b).function(payload, this);
       }
-      return payload.response;
+      return lodash.assign({}, payload.response);
    }
 
    routine(name, time, func) {

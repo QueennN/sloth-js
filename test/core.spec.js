@@ -70,21 +70,71 @@ describe('FOOKIE JS ', async function () {
     assert.equal(lodash(res.data.methods.has("test")), true)
     assert.equal(lodash(res.data.methods.has("update")), true)
     assert.equal(lodash(res.data.methods.has("delete")), true)
-    assert.equal(res.status, 200)
+    assert.equal(res.status, true)
     assert.equal(res.data.name, "model")
   });
+
+
+
+  it('Create return type must be object', async function () {
+    let res = await fookie.run({
+      system: true,
+      model: "modify",
+      method: "create",
+      body: {
+        name: "createreturn",
+        function: function () { }
+      }
+    })
+    assert.equal(typeof res.data, "object")
+  });
+
+
+  it('Get return type must be object', async function () {
+    let res = await fookie.run({
+      system: true,
+      model: "model",
+      method: "get",
+      query: {
+        name: "model"
+      }
+    })
+    assert.equal(res.status, true)
+    assert.equal(typeof res.data, "object")
+  });
+
+
+  it('getAll return type must be array', async function () {
+    let res = await fookie.run({
+      system: true,
+      model: "model",
+      method: "getAll",
+    })
+    assert.equal(res.status, true)
+    assert.equal(lodash.isArray(res.data), true)
+  });
+
+
+
+
 
 
   it('Create model', async function () {
     let res = await fookie.run({
       system: true,
-      model: "model",
+      model: "setting",
       method: "create",
-      body: example_model
+      body: {
+        name: "Create model",
+        value: "yow yow"
+      }
     })
-    assert.equal(res.data.name, "test_model")
-    assert.equal(res.status, 200)
+    assert.equal(res.status, true)
   });
+
+
+
+
 
   it('Create and update model', async function () {
     let res = await fookie.run({
@@ -94,7 +144,7 @@ describe('FOOKIE JS ', async function () {
       body: example_model
     })
     assert.equal(res.data.name, "test_model")
-    assert.equal(res.status, 200)
+    assert.equal(res.status, true)
     res = await fookie.run({
       system: true,
       model: "model",
@@ -107,7 +157,7 @@ describe('FOOKIE JS ', async function () {
       }
     })
     assert.equal(res.data.name, "test_model2")
-    assert.equal(res.status, 200)
+    assert.equal(res.status, true)
   });
 
 

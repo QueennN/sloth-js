@@ -459,7 +459,7 @@ const fookie = new Fookie({
 })
 
 // localhost:3000/health_check <- GET
-// {status:200,data:{ok:true}}
+// {status:true,data:{ok:true}}
 ```
 
 ### Metric

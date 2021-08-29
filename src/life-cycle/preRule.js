@@ -26,7 +26,7 @@ module.exports = async function (payload, ctx) {
       }
       return true;
    } else {
-      payload.response.status = 400
+      payload.response.status = false
       payload.response.warnings.push(`Missing preRule: ` + ctx.lodash.remove(rules, r => !ctx.local.has("rule", r)));
       return false
    }

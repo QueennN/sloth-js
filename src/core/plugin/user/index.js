@@ -38,7 +38,7 @@ module.exports = async function (ctx) {
          },
       });
 
-      return res.status == 200;
+      return res.status == true;
    });
    ctx.rule("is_last_admin", async function (payload, ctx) {
       let res = await ctx.run({

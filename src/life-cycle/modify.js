@@ -10,7 +10,7 @@ module.exports = async function (payload, ctx) {
          })
       }
    } else {
-      payload.response.status = 400
+      payload.response.status = false
       payload.response.warnings.push(`Missing modify: ` + ctx.lodash.remove(arr, i => !ctx.local.has("modify", i)));
    }
 };
