@@ -41,6 +41,7 @@ describe('FOOKIE JS ', async function () {
     if (!fookie.setting) throw Error("")
   });
 
+
   it('Instance needs this models', async function () {
     assert.equal(fookie.local.has("model", "rule"), true)
     assert.equal(fookie.local.has("model", "role"), true)
@@ -58,22 +59,20 @@ describe('FOOKIE JS ', async function () {
     let res = await fookie.run({
       system: true,
       model: "model",
-      method: "get",
-      query: {
-        name: "model"
-      }
+      method: "getAll",
     })
-    assert.equal(lodash(res.data.methods.has("create")), true)
-    assert.equal(lodash(res.data.methods.has("get")), true)
-    assert.equal(lodash(res.data.methods.has("getAll")), true)
-    assert.equal(lodash(res.data.methods.has("count")), true)
-    assert.equal(lodash(res.data.methods.has("test")), true)
-    assert.equal(lodash(res.data.methods.has("update")), true)
-    assert.equal(lodash(res.data.methods.has("delete")), true)
     assert.equal(res.status, true)
-    assert.equal(res.data.name, "model")
+    let arr = res.data
+    for (let model of arr) {
+      assert.equal(lodash(model.methods.has("create")), true)
+      assert.equal(lodash(model.methods.has("get")), true)
+      assert.equal(lodash(model.methods.has("getAll")), true)
+      assert.equal(lodash(model.methods.has("count")), true)
+      assert.equal(lodash(model.methods.has("test")), true)
+      assert.equal(lodash(model.methods.has("update")), true)
+      assert.equal(lodash(model.methods.has("delete")), true)
+    }
   });
-
 
 
   it('Create return type must be object', async function () {
@@ -83,10 +82,9 @@ describe('FOOKIE JS ', async function () {
       method: "create",
       body: {
         name: "notexistingname",
-        value:"testany"
+        value: "testany"
       }
     })
-    console.log(res);
     assert.equal(typeof res.data, "object")
   });
 
@@ -116,10 +114,6 @@ describe('FOOKIE JS ', async function () {
   });
 
 
-
-
-
-
   it('Create model', async function () {
     let res = await fookie.run({
       system: true,
@@ -130,12 +124,9 @@ describe('FOOKIE JS ', async function () {
         value: "yow yow"
       }
     })
-    
+    console.log(res);
     assert.equal(res.status, true)
   });
-
-
-
 
 
   it('Create and update model', async function () {
@@ -162,10 +153,6 @@ describe('FOOKIE JS ', async function () {
   });
 
 
-
-
-
-
   it('Lifecycle models', async function () {
     assert.equal(fookie.local.has("model", "rule"), true)
     assert.equal(fookie.local.has("model", "role"), true)
@@ -185,8 +172,6 @@ describe('FOOKIE JS ', async function () {
     })
     assert.equal(typeof res.data, "number")
   });
-
-
 
 
   it('Simplified must be array', async function () {

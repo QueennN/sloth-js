@@ -49,6 +49,8 @@ module.exports = function (ctx) {
             });
 
             model.methods.set("create", async function (_payload, _ctx) {
+                if (!_ctx.store.has(_payload.model))
+                    console.log(_ctx.store.get(_payload.model));
                 _ctx.store.get(_payload.model).push(_payload.body)
                 return _payload.body
 

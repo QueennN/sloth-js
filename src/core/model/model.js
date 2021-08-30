@@ -71,5 +71,5 @@ module.exports = {
       },
    },
    methods: {},
-   mixin: ["default_mixin"],
+   mixin: [],
 };
