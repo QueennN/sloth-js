@@ -4,7 +4,7 @@ module.exports = function (ctx) { // kappa xd
         pk: Error(),
         types: {},
         connect: async function () {
-            console.log("nullDB connected.....");
+            console.log("nullDB connected...");
         },
         modify: async function (model, ctx) {
             model.methods.set("get", async function (payload, ctx) {
