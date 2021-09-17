@@ -120,12 +120,12 @@ class Fookie {
    async core() {
       await this.use(core);
    }
-   /*
+
    listen(port) {
       this.app.listen(port, () => {
          console.log(`FOOKIE ${port} is listening...`);
       });
-   }*/
+   }
 
    async fuzzer(times) {
       // lodash product kullanabilirsin
