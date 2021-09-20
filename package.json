@@ -6,6 +6,9 @@
     "scripts": {
         "test": "mocha"
     },
+    "bin": {
+        "fookie": "./cli/index.js"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/umudikk/fookie.git"
@@ -15,9 +18,11 @@
     "homepage": "https://github.com/umudikk/fookie.git#readme",
     "dependencies": {
         "axios": "^0.21.1",
+        "commander": "^8.2.0",
         "crypto-js": "^4.0.0",
         "deepmerge": "^4.2.2",
         "faker": "^5.5.3",
+        "figlet": "^1.5.2",
         "js-sha512": "^0.8.0",
         "lodash": "^4.17.21",
         "moment": "^2.29.1",
