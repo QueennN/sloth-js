@@ -46,8 +46,7 @@ module.exports = function (ctx) {
 
             model.methods.set("getAll", async function (_payload, _ctx) {
                 let res = _ctx.lodash.filter(_ctx.store.get(_payload.model), _payload.query).map(i => _ctx.lodash.pick(i, _payload.attributes))
-                console.log(_payload.projection.offset, _payload.projection.offset + _payload.projection.limit);
-               res = _ctx.lodash.slice(res, _payload.projection.offset, _payload.projection.offset + _payload.projection.limit)
+                res = _ctx.lodash.slice(res, (_payload.projection.offset || 0), (_payload.projection.offset || 0) + (_payload.projection.limit || 0))
                 return res
             });
 
