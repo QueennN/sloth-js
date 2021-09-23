@@ -1,6 +1,6 @@
 {
     "name": "fookie",
-    "version": "0.6.4",
+    "version": "0.6.7",
     "description": "idk.",
     "main": "./src/index.js",
     "scripts": {

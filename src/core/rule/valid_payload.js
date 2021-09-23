@@ -14,10 +14,7 @@ module.exports = {
          "response",
          "metrics",
       ]
-      let keys = ctx.lodash.keys(payload)
-
-
-      return ctx.lodash.without(keys, ...avaible_keys).length === 0
+      return ctx.lodash.without(ctx.lodash.keys(payload), ...avaible_keys).length === 0
    }
 }
 

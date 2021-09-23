@@ -17,6 +17,12 @@ module.exports = {
          warnings: [],
          status: true,
       }
+      if (!payload.projection.offset) {
+         payload.projection.offset = 0
+      }
+      if (!payload.projection.limit) {
+         payload.projection.limit = Infinity
+      }
    }
 }
 

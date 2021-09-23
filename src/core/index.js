@@ -55,7 +55,6 @@ module.exports = async function (ctx) {
 
 
    //MODIFIES
-   await ctx.modify(require("./modify/merge_lifecycle"));
    await ctx.modify(require("./modify/password"));
    await ctx.modify(require("./modify/set_default"));
    //await ctx.modify(require("./modify/set_user"));

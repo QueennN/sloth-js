@@ -26,7 +26,7 @@ module.exports = {
         update: {
             preRule: ["has_model", "has_method", "has_body"],
             modify: [],
-            rule: ["has_field", "check_type", "check_required", "field_control"], //TODO UNIQUE
+            rule: ["has_field", "check_type", "check_required", "field_control", "unique"],
             filter: [],
             effect: [],
 

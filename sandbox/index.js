@@ -8,13 +8,13 @@
 
     let res = await fookie.run({
         system: true,
-        model: "setting",
+        model: "model",
         method: "getAll",
-        body: {
-            name: "test3123",
-            value: "asdasd"
-        },
-        attributes: ["name"]
+        attributes: ["database"],
+        projection: {
+            limit: 1,
+            offset: 1,
+        }
     })
     console.log(res);
 })()

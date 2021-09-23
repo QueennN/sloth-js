@@ -13,7 +13,7 @@ module.exports = {
          input: "text",
          required: true,
          type: "string",
-         default:"store"
+         default: "store"
       },
       display: {
          input: "text",
@@ -35,12 +35,12 @@ module.exports = {
          input: "json",
          type: "object",
          write: ["system"],
-         default:{}
+         default: {}
       },
       mixin: {
          input: "json",
          type: "array",
-         default:[]
+         default: []
       },
       version: {
          type: "string",
@@ -60,7 +60,7 @@ module.exports = {
          role: ["system"],
       },
       create: {
-         modify: ["set_store_pool","set_mixin", "fix_schema","merge_lifecycle", "database_modify"],
+         modify: ["set_store_pool", "set_mixin", "fix_schema", "database_modify"],
          role: ["system"],
       },
       delete: {

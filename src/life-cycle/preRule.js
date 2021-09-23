@@ -1,5 +1,16 @@
 module.exports = async function (payload, ctx) {
+   if (!ctx.local.has("model", payload.model)) {
+      payload.response.warnings.push(`invalid model: ${payload.model}`);
+      return false
+   }
+
+   if (!ctx.local.get("model", payload.model).methods.has(payload.method)) {
+      payload.response.warnings.push(`invalid method: ${payload.model}`);
+      return false
+   }
    let arr = ctx.helpers.defaultArrayCalc(payload, "preRule");
+
+
    if (arr.every((i) => ctx.local.has("rule", i))) {
       for (let i of arr) {
          let start = Date.now()

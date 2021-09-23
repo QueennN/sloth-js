@@ -5,14 +5,14 @@ Fookie JS is a framework to create web application in minutes. Fookie JS uses re
 ## Core Features
 
 - Write clean and less code. (%70-%90 less code.I'm not kidding.)
-- Manage your fookie instance with API.  (Dont need configuration file)
+- Serverless, http or socket. it does not matter to use Fookie JS. 
+- Manage your fookie instance with API.(for http server)
 - Develop your application by adding small pieces of code
-- Default health check
-- Prometheus metric.
-- Password & Email base authentication.
+- Default health check plugin.
+- Prometheus metric plugin.
+- Password & Email base authentication plugin.
 - Auto generated methods for every model (post , delete , update , count , model,
   get , getAll , test)
-- Huge default library like Autocode
   (mongoose,sequelize,aws-sdk,validatorjs,lodash etc.)
 - Auto validate request body
 - Check required,onlyClient fields in request body
